@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Romina's NYC · Jun 2–9</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --muted:#6b6b6b;
+    --hairline:#e5e5e5;
+    --bg:#faf8f5;
+    --card:#ffffff;
+    --accent:#c2410c;
+    --accent-soft:#fef3ec;
+    --together:#5a8a4a;
+    --together-soft:#e7f0e3;
+    --solo:#5b6b80;
+    --solo-soft:#eef2f7;
+    --d1:#2f7a3e;
+    --d2:#c2410c;
+    --d3:#7c3aed;
+    --d4:#0d9488;
+    --d5:#1d4ed8;
+    --d6:#b45309;
+    --d7:#be185d;
+    --d8:#9333ea;
+    --d9:#475569;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  body{display:flex;flex-direction:column;min-height:100vh}
+  header{
+    padding:14px 18px 10px;
+    background:var(--bg);
+    border-bottom:1px solid var(--hairline);
+    position:sticky;top:0;z-index:1000;
+  }
+  .hello{font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+  h1{font-size:22px;font-weight:800;margin:0 0 2px;letter-spacing:-.01em}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:10px}
+  .days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:0 -18px;padding-left:18px;padding-right:18px;scrollbar-width:none}
+  .days::-webkit-scrollbar{display:none}
+  .pill{
+    flex:none;padding:8px 14px;border-radius:999px;border:1.5px solid var(--hairline);
+    background:#fff;color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;gap:8px;white-space:nowrap;transition:transform .1s ease;
+  }
+  .pill:active{transform:scale(.97)}
+  .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+  .pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .pill.active .dot{box-shadow:0 0 0 2px rgba(255,255,255,.4)}
+  #map{flex:1;min-height:300px;width:100%}
+  .leaflet-container{background:#e8e4dc;font-family:inherit}
+  .leaflet-popup-content-wrapper{border-radius:14px;padding:0;box-shadow:0 6px 22px rgba(0,0,0,.16)}
+  .leaflet-popup-content{margin:0;font:inherit;width:260px!important}
+  .pop{padding:14px 16px 12px}
+  .pop .pt{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+  .pop .pn{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 6px;line-height:1.3}
+  .pop .pd{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:10px}
+  .pop a.btn{display:block;text-align:center;background:var(--ink);color:#fff;text-decoration:none;padding:9px 12px;border-radius:10px;font-size:13px;font-weight:600;}
+  .panel{background:var(--card);border-top:1px solid var(--hairline);padding:18px}
+  .ptitle{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:4px}
+  .pday{font-size:20px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:10px}
+  .tag.together{background:var(--together-soft);color:var(--together)}
+  .tag.solo{background:var(--solo-soft);color:var(--solo)}
+  .pnarr{font-size:14px;color:var(--ink);line-height:1.55;margin-bottom:14px}
+  .stops{display:flex;flex-direction:column;gap:0}
+  .stop{display:grid;grid-template-columns:74px 1fr;gap:8px;padding:12px 0;border-top:1px solid var(--hairline);cursor:pointer;}
+  .stop:first-child{border-top:0}
+  .stop:active{background:#f5f2ed}
+  .stime{font-size:12px;font-weight:700;color:var(--accent);padding-top:2px;letter-spacing:.02em}
+  .sname{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:2px}
+  .snote{font-size:13px;line-height:1.45;color:var(--muted)}
+  .legend{padding:14px 18px 22px;font-size:12px;color:var(--muted);text-align:center}
+  .legend strong{color:var(--ink)}
+  .pin-wrap{position:relative}
+  .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;}
+  .pin span{transform:rotate(45deg);color:#fff;font-size:13px;font-weight:800;line-height:1}
+  .pin.home{background:#444;width:22px;height:22px;border-radius:50%;transform:none}
+  .pin.home span{transform:none;font-size:11px}
+  @media (min-width: 760px){
+    body{display:grid;grid-template-columns:380px 1fr;grid-template-rows:auto 1fr;height:100vh;overflow:hidden}
+    header{grid-column:1/3}
+    #map{grid-column:2;grid-row:2;min-height:0}
+    .panel{grid-column:1;grid-row:2;overflow-y:auto;border-top:0;border-right:1px solid var(--hairline)}
+    .legend{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="hello">Hi Romina ·</div>
+  <h1>Your NYC week</h1>
+  <div class="sub">June 2–9, 2026 · tap a day to start</div>
+  <div class="days" id="days"></div>
+</header>
+<div id="map"></div>
+<section class="panel" id="panel"></section>
+<div class="legend">Made with ❤️ by Anna · <strong>tap any pin</strong> to open in your maps app</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+function waitForLeaflet(cb, tries) {
+  tries = tries || 0;
+  if (typeof L !== 'undefined') { cb(); return; }
+  if (tries > 50) {
+    document.getElementById('map').innerHTML =
+      '<div style="padding:40px;text-align:center;color:#6b6b6b;font-size:14px">Map failed to load. Check your internet connection and refresh.</div>';
+    return;
+  }
+  setTimeout(function(){ waitForLeaflet(cb, tries + 1); }, 100);
+}
+
+waitForLeaflet(function() {
+
+var HOME = { name:"472 Henry St · Anna + Robby's", note:"Cobble Hill, Brooklyn · F/G at Bergen St", lat:40.6850, lng:-73.9990 };
+var MOM  = { name:"Manhattan base",       note:"Stuyvesant Town area · L to 1st Ave", lat:40.7335, lng:-73.9790 };
+
+var WELCOME = {
+  n:0, pillLabel:"🏠 Home", color:"--d1", date:"Anytime · House guide", title:"Welcome to 472 Henry!",
+  tag:"Brooklyn home base · Anna + Robby", together:true, isHome:true,
+  narrative:"Yay, Brooklyn! Make yourself at home — fridge, cabinets, backyard, all yours. Here's everything you need to know about the apt. Tap a section to jump to it.",
+  sections:[
+    {h:"WiFi", b:"Network: \"Tell my Wi-Fi love her\"<br>Password: <b>sianabaya410</b>"},
+    {h:"Smart lights", b:"Control with Alexa or Siri, or the wall switches.<br>• \"Hey Siri, turn on the living room lights\"<br>• \"Hey Siri, set Bright\" → all lights to 100%<br>• \"Hey Siri, set Vibes\" → cozy dim scene Anna programmed<br><br><b>Bedroom:</b> \"Bed lamp\" is the main one. \"Robby's closet light\" / \"Anna's closet light\" are softer alternatives.<br><br><b>Nezzy's room:</b> \"Nezzy main light\" → ceiling. \"Nezzy's closet light\" → closet."},
+    {h:"Laundry & dishwasher", b:"Washer/dryer is in the closet across from the kitchen — please use! Detergent is on top of the dryer, dryer balls instead of sheets.<br><br><b>Dishwasher</b> pods are in the cabinet above the sink — toss one in, press start."},
+    {h:"Keys", b:"When you head out, just lock the front door + metal gate. The white door doesn't need to be locked. We'll sort key drop closer to your departure — keeping it simple."},
+    {h:"Subway from the apt", b:"Closest: <b>F or G at Bergen St</b>. Slightly further: 2/3/4/5/R at Borough Hall (short walk)."},
+    {h:"Our local favorites map", b:"All our favorite neighborhood spots:<br><a href=\"https://maps.app.goo.gl/rBKndxNJKTeaW1SG9\" target=\"_blank\" rel=\"noopener\" style=\"color:#c2410c;text-decoration:underline\">maps.app.goo.gl/rBKndxNJKTeaW1SG9</a>"},
+    {h:"Need anything?", b:"<b>Anna:</b> +1 917 407 4118<br><b>Robby:</b> +1 415 542 8636"}
+  ]
+};
+
+var DAYS = [
+  {
+    n:1, pillLabel:"Tue ✓", color:"--d1", date:"Tue · Jun 2 · ACTUAL", title:"Arrival Day · DUMBO → Downtown → Fort Greene",
+    tag:"With Anna · all day · slept at Anna's", together:true,
+    narrative:"Romina's IN! Full Brooklyn welcome tour — bagels at home, walked up Brooklyn Bridge Park to DUMBO for sicilian + tacos + hot chocolate + street art and design shops. Bus to downtown, Trader Joe's, R train one stop to Atlantic for an OMNY subway lesson. Picked up Nezzy from PS 38, banh mi picnic at Fort Greene Park with Jackie + Allyson, then a Chinese massage on Court St to land the day.",
+    stops:[
+      {t:"7:21 AM", n:"AS486 lands at JFK · Anna picked up curbside", lat:40.6446, lng:-73.7797,
+        d:"Alaska Airlines AS486 landed on time at JFK. Anna met Romina curbside at arrivals — straight drive to Brooklyn together."},
+      {t:"~9:30 AM", n:"Home: Smith St everything bagel + coffee", lat:40.6850, lng:-73.9990,
+        d:"Got back to 472 Henry, settled in, everything bagel + cream cheese from Smith St + coffee to start the day."},
+      {t:"~11:00 AM", n:"Walk up Brooklyn Bridge Park to DUMBO", lat:40.7000000, lng:-73.9970000,
+        d:"Beautiful walk north along the waterfront from Cobble Hill, all the way up through Brooklyn Bridge Park to DUMBO."},
+      {t:"~12:00 PM", n:"DUMBO · explore + window shop + street art", lat:40.7030000, lng:-73.9890000,
+        d:"Wandered DUMBO — design shops, vintage stores, the iconic Manhattan Bridge view down Washington St, street art everywhere."},
+      {t:"12:30 PM", n:"L&B's · Old Fulton St (DUMBO outpost)", lat:40.7022385, lng:-73.9931911,
+        d:"L&B's Old Fulton St location. Famous square sicilian slice with cheese UNDER the sauce. Romina's first NYC pizza — big approval. 46 Old Fulton St."},
+      {t:"1:30 PM", n:"Los Tacos No.1 · Front St", lat:40.7028800, lng:-73.9888100,
+        d:"More DUMBO design shop wandering, then a taco at Los Tacos on Front St. Snack-sized but exactly hit the spot."},
+      {t:"2:30 PM", n:"Jacques Torres Chocolate", lat:40.7032083, lng:-73.9914250,
+        d:"The famous Wicked hot chocolate with cinnamon. Romina's NYC hot choco wish, checked off. 66 Water St."},
+      {t:"3:00 PM", n:"B25 bus → Downtown Brooklyn · City Point TJ's", lat:40.6909000, lng:-73.9831000,
+        d:"Hopped the B25 bus from DUMBO over to Downtown Brooklyn. Stopped at City Point Trader Joe's for a quick supply run."},
+      {t:"3:30 PM", n:"R train one stop · OMNY + subway lesson", lat:40.6843000, lng:-73.9777000,
+        d:"From DeKalb Av: R train one stop to Atlantic Av-Barclays Ctr. Romina got her OMNY pass set up + learned the subway basics from Anna."},
+      {t:"3:45 PM", n:"Pick up Nezzy at PS 38", lat:40.6862000, lng:-73.9810000,
+        d:"Walked from Atlantic Terminal over to PS 38 in Boerum Hill (The Pacific School) for Nezzy pickup."},
+      {t:"4:30 PM", n:"Banh Mi Pro · banh mi + summer rolls", lat:40.6905000, lng:-73.9658000,
+        d:"Walked over to grab dinner to-go: banh mi sandwiches + summer rolls from Banh Mi Pro."},
+      {t:"5:00 PM", n:"Fort Greene Park · picnic w/ Jackie + Allyson", lat:40.6896000, lng:-73.9737000,
+        d:"Brought the banh mi to Fort Greene Park and met up with Anna's friends Jackie + Allyson. Park hang in the late afternoon light."},
+      {t:"7:30 PM", n:"Cab to Zhengyuanyuan · Chinese massage", lat:40.6855000, lng:-73.9971000,
+        d:"Cab from Fort Greene back to Cobble Hill for a Chinese massage at Zhengyuanyuan on Court St. Travel-day reset."},
+      {t:"~9:00 PM", n:"Walk home + sleep", lat:40.6850, lng:-73.9990,
+        d:"Easy walk back to 472 Henry. Crashed."}
+    ]
+  },
+  {
+    n:2, pillLabel:"Wed", color:"--d2", date:"Wed · Jun 3", title:"Katz's + Rockefeller + MoMA + Central Park Picnic + Armory",
+    tag:"AM w/ Tita Roz · Anna joins for picnic + show · sleep at Mom's", together:true,
+    narrative:"Katz's brunch in the morning ✓, drop bags at Mom's ✓, then a Midtown loop — Rockefeller Center + Top of the Rock, the Louis Vuitton building on 5th, MoMA, then walk north into Central Park for a picnic where Anna meets up with food. Then over to Park Avenue Armory for Joy Guidry at 7:30 PM.",
+    stops:[
+      {t:"10:00 AM ✓", n:"Katz's Delicatessen · brunch", lat:40.7223540, lng:-73.9874050,
+        d:"NYC institution since 1888. Pastrami on rye is the must-order. 205 E Houston St."},
+      {t:"11:30 AM ✓", n:"Drop bags at Mom's", lat:40.7335, lng:-73.9790,
+        d:"276 First Ave, Apt 11H. Drop, regroup, head out for the afternoon."},
+      {t:"~12:30 PM", n:"Rockefeller Center + Top of the Rock", lat:40.7593495, lng:-73.9794087,
+        d:"From Mom's: 6 train to 51st St, walk west. Wander Rockefeller Plaza, then up Top of the Rock — view INCLUDES the Empire State Building. Book online ahead. Allow ~90 min. 30 Rockefeller Plaza."},
+      {t:"~2:00 PM", n:"Louis Vuitton 'suitcase' building", lat:40.7581457, lng:-73.9765976,
+        d:"Walk up 5th Ave from Top of the Rock. LV flagship at 1 E 57th St — wrapped to look like a giant suitcase. Saks + the big 5th Ave shopping strip on the way. Window shop unless something grabs you."},
+      {t:"~2:30 PM", n:"Museum of Modern Art (MoMA)", lat:40.7614327, lng:-73.9776216,
+        d:"Walk west to 53rd St. Starry Night, Picasso, Warhol, Dalí. Covered by Anna's MoMA membership — just walk in. Spend ~2 hours. 11 W 53rd St."},
+      {t:"~5:00 PM", n:"Central Park picnic w/ Anna 🧺", lat:40.7711000, lng:-73.9748000,
+        d:"Walk north from MoMA into Central Park — Sheep Meadow / Bethesda Terrace area. <b>Anna will meet you with food.</b> Late-afternoon golden hour, the best Central Park time. Text Anna when you're leaving MoMA to coordinate the meet-up spot."},
+      {t:"~7:00 PM", n:"Walk/cab to the Armory", lat:40.7677500, lng:-73.9683300,
+        d:"Park Avenue Armory is at 67th &amp; Park — ~10-15 min walk east through the park, or a quick cab from Central Park East side. Aim to be inside by 7:15."},
+      {t:"7:30 PM", n:"Joy Guidry · Artist's Studio · Park Ave Armory", lat:40.7677500, lng:-73.9683300,
+        d:"643 Park Ave (btwn 66th &amp; 67th). Joy Guidry — bassoonist/composer — in the Armory's intimate Artist's Studio series. <a href=\"https://www.armoryonpark.org/season-events/2026-season/artists-studio/joy-guidry/\" target=\"_blank\" rel=\"noopener\" style=\"color:#c2410c;text-decoration:underline\">event page</a>"},
+      {t:"After", n:"Back to Mom's", lat:40.7335, lng:-73.9790,
+        d:"6 train from 68th St-Hunter back down to 23rd St, walk south. Or grab a Lyft together."}
+    ]
+  },
+  {
+    n:3, pillLabel:"Thu", color:"--d3", date:"Thu · Jun 4", title:"Ferry + Chinatown Food Crawl + SoHo + LES Night",
+    tag:"Solo AM · dinner+ w/ Anna · Mom's", together:true,
+    narrative:"Free water views in the morning, then a slow-rolling Chinatown food + souvenir crawl all afternoon. Dim sum, pork buns, classic Chinese ice cream, boba — small bites spaced out. SoHo shopping in between. Kiki's with Anna for dinner, LES night crawl after.",
+    stops:[
+      {t:"9:00 AM", n:"Staten Island Ferry (FREE)", lat:40.7010853, lng:-74.0131012,
+        d:"From Mom's: 6 train to Bowling Green, walk to Whitehall Terminal. Free, every 30 min. Round trip ~50 min. RIGHT side going, LEFT coming back. Stay on the boat — walk off at Staten Island and back on the next one."},
+      {t:"10:45 AM", n:"9/11 Memorial", lat:40.7115776, lng:-74.0133362,
+        d:"5-min walk from the ferry. Reflecting pools where the towers stood — free and powerful. Museum is ticketed."},
+      {t:"12:15 PM", n:"The Oculus", lat:40.7118042, lng:-74.0118498,
+        d:"Stunning white winged architecture. Free to walk through. Right next to the Memorial."},
+      {t:"1:00 PM", n:"Nom Wah · dim sum (eat light!)", lat:40.7145089, lng:-73.998188,
+        d:"NYC's oldest dim sum (since 1920) on Doyers Street — the famous 'bloody angle' alley. <b>Order light</b> — food crawl ahead. Their roast pork bun + shrimp dumplings + scallion pancake = perfect 3-item start. CASH or AMEX ONLY. 13 Doyers St."},
+      {t:"2:00 PM", n:"Mei Lai Wah · BBQ pork bun", lat:40.7150700, lng:-73.9982900,
+        d:"Tiny old-school Chinatown bakery — get the <b>baked BBQ pork bun</b> (char siu bao). Walk it down Bayard St. ~$2, takes 30 seconds, iconic. 64 Bayard St."},
+      {t:"2:30 PM", n:"Chinatown souvenir wander", lat:40.7160000, lng:-73.9970000,
+        d:"Walk off the carbs through Chinatown for souvenirs: <b>Pearl River Mart</b> (395 Broadway, affordable Asian housewares + gifts), <b>Aji Ichiban</b> (Asian snacks), the open-air Canal St vendors (kitschy bags/jewelry), <b>Bonbon Chinatown</b> (181 Mott St, cute candy)."},
+      {t:"3:15 PM", n:"Chinatown Ice Cream Factory", lat:40.7150700, lng:-73.9983400,
+        d:"Right across the street from Mei Lai Wah. <b>Iconic Chinese flavors</b> &mdash; black sesame, taro, ginger, lychee, red bean. Cash or card. 65 Bayard St."},
+      {t:"3:45 PM", n:"The Alley · boba", lat:40.7150000, lng:-73.9942100,
+        d:"Brown sugar boba moment. The Alley is known for their fresh tiger-stripe brown sugar deer milk tea. Walk-up counter. 27 Pell St (in Chinatown, 5-min walk)."},
+      {t:"4:15 PM", n:"Walk into SoHo (shopping!)", lat:40.7242, lng:-73.9989,
+        d:"Walk north from Chinatown into SoHo. Cast-iron buildings, cobblestone side streets. Broadway, Prince, Spring, Mercer/Greene. Aritzia, Glossier, Reformation, Sezane, Madewell, plus indie boutiques."},
+      {t:"4:45 PM", n:"NYON + MoMA Design Store", lat:40.7229688, lng:-73.9979997,
+        d:"NYON for iconic NY apparel, MoMA Design Store for cool gifts/books. Souvenir territory."},
+      {t:"5:30 PM", n:"Kiki's · dinner w/ Anna", lat:40.7145497, lng:-73.9918591,
+        d:"Greek taverna hidden in an old Chinese print shop on Division St — Dimes Square / LES cult favorite. Unreal vibe, calamari + Greek salad are stars. Anna will try for a resy. 130 Division St."},
+      {t:"7:30 PM", n:"LES night crawl", lat:40.7178000, lng:-73.9882000,
+        d:"Stay in the neighborhood after Kiki's. <b>Scarr's Pizza</b> (35 Orchard St) for the iconic LES slice. <b>Bar Goto</b> (245 Eldridge) for Japanese cocktails. Walk Dimes Sq / Ludlow / Orchard. Finish at <b>Cervo's</b> (43 Canal) or <b>Forgotten Land</b> for a last cocktail."},
+      {t:"After", n:"Back to Mom's", lat:40.7335, lng:-73.9790,
+        d:"F train from East Broadway up to 2nd Ave, then walk. Or Lyft."}
+    ]
+  },
+  {
+    n:4, pillLabel:"Fri", color:"--d4", date:"Fri · Jun 5", title:"Times Square + Titanique w/ Tita Roz",
+    tag:"Solo AM → w/ Tita Roz PM · Mom's", together:true,
+    narrative:"BIG NIGHT: Titanique with Tita Roz at 8:30 PM (Broadway, Times Square). Anna heads up to camping in the morning. Daytime: knock out the Midtown bucket list solo. Then meet Tita Roz at Bryant Park, do Shake Shack on 8th Ave (her pick) before the show, and walk over to the theater. Comfy shoes — lots of walking before you sit down for the show.",
+    stops:[
+      {t:"10:00 AM", n:"Top of the Rock", lat:40.7593495, lng:-73.9794087,
+        d:"Better than Empire State — the view INCLUDES the ESB. Book online ahead. Allow ~90 min. From Mom's: 6 train to 51st St."},
+      {t:"11:45 AM", n:"5th Ave + LV building", lat:40.7581457, lng:-73.9765976,
+        d:"Walk up 5th Ave from Top of the Rock. Louis Vuitton, Saks, the big shopping street. Window shop."},
+      {t:"12:45 PM", n:"Joe's Pizza · lunch", lat:40.7546795, lng:-73.9870291,
+        d:"Quick classic NY slice. Stand-up counter, fast. Fuel for the afternoon."},
+      {t:"1:30 PM", n:"Grand Central · Whispering Gallery", lat:40.7524961, lng:-73.9773022,
+        d:"Find the arched ceiling near the Oyster Bar. Stand in opposite corners and whisper into the wall — magic."},
+      {t:"2:30 PM", n:"Summit One Vanderbilt", lat:40.7527746, lng:-73.9787253,
+        d:"Right next door. Mirror rooms, glass floor, surreal views. Book ahead. Allow 2 hours."},
+      {t:"5:00 PM", n:"Bryant Park · meet Tita Roz", lat:40.7535367, lng:-73.9829529,
+        d:"Beautiful little park behind the public library. Easy meet-up spot right between Summit and the theater district — decompress in a green chair before dinner."},
+      {t:"6:00 PM", n:"Shake Shack · pre-show dinner (Mom's pick)", lat:40.7572400, lng:-73.9884500,
+        d:"Tita Roz's call — Shake Shack before the show. Times Square location at 691 8th Ave (btwn 43rd & 44th) is a 1-min walk from the Hudson Theatre, so you're never rushed to curtain. ShackBurger, fries, a shake — classic NYC fast-casual. Done by 7:45 so you stroll over with breathing room. (Backup if line is brutal: The Halal Guys cart at 53rd & 6th, also legendary.) Optional plan: do it AFTER the show instead — same Shake Shack stays open late and the post-Titanique buzz + a burger is its own vibe."},
+      {t:"8:30 PM", n:"TITANIQUE · Broadway 🚢", lat:40.7574131, lng:-73.9842095,
+        d:"Titanic + Céline Dion the musical. Hilarious, campy, totally Tita Roz's energy. Hudson Theatre area, near Times Square — confirm exact theater address on your ticket. Show runs ~95 min, no intermission. Get there by 8:10."},
+      {t:"~10:30 PM", n:"Times Square at night", lat:40.7579747, lng:-73.9855426,
+        d:"After the show, walk through Times Square with Tita Roz — fully lit up, peak NYC. Then: N/R/W from Times Sq-42nd down to 14th St-Union Sq, walk east. Or Lyft together."}
+    ]
+  },
+  {
+    n:5, pillLabel:"Sat", color:"--d5", date:"Sat · Jun 6", title:"Chelsea + Hudson Yards + West Village",
+    tag:"Solo · stay at Mom's", together:false,
+    narrative:"Slower cultural day. Vessel, the High Line, Chelsea galleries, lunch at Chelsea Market. Then walk south into the West Village for the evening — cobblestone wander + dinner.",
+    stops:[
+      {t:"11:00 AM", n:"Vessel · Hudson Yards", lat:40.7538073, lng:-74.0021537,
+        d:"Honeycomb sculpture you can climb. 6 train at 23rd St up to 42nd-Grand Central, transfer to 7 to 34th-Hudson Yards."},
+      {t:"12:00 PM", n:"The High Line · walk south", lat:40.7479925, lng:-74.0047649,
+        d:"Elevated park on old train tracks. Start at Hudson Yards entrance, walk south through Chelsea. Exit around W 23rd St for the galleries."},
+      {t:"1:00 PM", n:"Chelsea gallery district", lat:40.7459455, lng:-74.0074086,
+        d:"One of the great contemporary art neighborhoods — almost all free. Wander streets between W 18th-26th, between 10th & 11th Aves. Big names: David Zwirner, Gagosian, Hauser & Wirth, Pace."},
+      {t:"3:30 PM", n:"Chelsea Market · late lunch", lat:40.7424396, lng:-74.0061439,
+        d:"End of the High Line drops you nearby. Food hall + boutique shops. Los Tacos #1, L'Antica Pizzeria da Michele. 75 9th Ave."},
+      {t:"5:00 PM", n:"Walk south into the West Village", lat:40.7335000, lng:-74.0050000,
+        d:"~10-min walk from Chelsea Market. WV is one of NYC's most charming neighborhoods — cobblestone blocks, brownstones, indie shops. Wander Bleecker St, Bedford St, Grove St, Christopher St. Stop at <b>Magnolia Bakery</b> (401 Bleecker) for the banana pudding moment. <b>Murray's Cheese</b> (254 Bleecker) for samples. The Friends apartment is at 90 Bedford St."},
+      {t:"7:30 PM", n:"Dinner · 3 West Village options 👇", lat:40.7330000, lng:-74.0040000,
+        d:"PICK ONE:<br><br>(1) <b>Via Carota</b> (51 Grove St) — Iconic WV Italian from Jody Williams + Rita Sodi. <b>No reservations</b>, expect a wait — put your name in, get a Negroni at the bar. Cacio e pepe + svizzerina + insalata verde are stars. Worth every minute.<br><br>(2) <b>Buvette</b> (42 Grove St) — Tiny French gastroth&egrave;que right next door to Via Carota. Steamed eggs, croque, charcuterie, all-day brunch energy at dinner. No res. Charming for solo.<br><br>(3) <b>Joseph Leonard</b> (170 Waverly Pl) — Sceney WV New American, lively bar, walk-in friendly at the counter. Great oysters + burger + roast chicken."},
+      {t:"After", n:"Back to Mom's", lat:40.7335, lng:-73.9790,
+        d:"From the West Village: walk to W 4th St-Washington Sq, F or M train east to 2nd Ave, then walk. Or Lyft. ~25 min."}
+    ]
+  },
+  {
+    n:6, pillLabel:"Sun", color:"--d6", date:"Sun · Jun 7", title:"PH Independence Day Parade + Brooklyn Dinner",
+    tag:"AM w/ Tita Roz · PM w/ Anna · back to Anna's", together:true,
+    narrative:"Romina + Tita Roz do the <b>Philippine Independence Day Parade</b> at Madison Square Park in the morning. Anna's coming back from camping — should be back in Brooklyn by ~5. Romina trains back to Brooklyn to meet Anna, dinner at Café Spaghetti in the neighborhood, and finally that Farmacy or Red Hook dessert we missed on Day 1.",
+    stops:[
+      {t:"Morning", n:"Slow morning at Mom's", lat:40.7335, lng:-73.9790,
+        d:"Coffee, easy start. Get ready to head out with Tita Roz."},
+      {t:"11:00 AM", n:"PH Independence Day Parade · Madison Square Park", lat:40.7424400, lng:-73.9881400,
+        d:"Walk over from Mom's (~10 min west) with Tita Roz. The Philippine Independence Day Parade typically marches up Madison Ave and ends with a cultural festival at Madison Square Park (food, music, vendors). Soak it in &mdash; rare to get a piece of home in NYC. Confirm exact start time + route on the day."},
+      {t:"~4:00 PM", n:"Train back to Brooklyn", lat:40.6877, lng:-73.9962,
+        d:"From Madison Sq Park: walk to 23rd St on N/R/W, ride down to Atlantic Av-Barclays, transfer to 2/3/4/5 to Borough Hall, walk to 472 Henry. ~40 min. Drop bag at Anna's."},
+      {t:"~6:00 PM", n:"Café Spaghetti · dinner w/ Anna", lat:40.6840866, lng:-74.0024577,
+        d:"Finally getting that Café Spaghetti dinner together (we couldn't get a res on Day 1). Beautiful intimate Italian — homemade pasta, meatballs, garlic twists. 8-min walk from Anna's. 126 Union St."},
+      {t:"~8:00 PM", n:"Dessert: Farmacy OR Red Hook (round 2)", lat:40.6831200, lng:-73.9989000,
+        d:"The dessert we missed on Day 1! Pick by energy: (1) <b>Brooklyn Farmacy &amp; Soda Fountain</b> — 1920s soda fountain, 5-min walk from Café Spaghetti. 513 Henry St. EASY. (2) <b>Steve's Authentic Key Lime Pies</b> in Red Hook — the famous &quot;Swingle&quot; (chocolate-dipped frozen key lime on a stick), 15-min Lyft. More of an adventure but the waterfront walk is worth it."}
+    ]
+  },
+  {
+    n:7, pillLabel:"Mon", color:"--d7", date:"Mon · Jun 8", title:"Jackson Heights · A Gentler Food Crawl",
+    tag:"Full day with Anna!", together:true,
+    narrative:"Anna's day off — full day in Queens. Jackson Heights packs Tibetan, South Asian, Colombian, Uruguayan, and Mexican into a few walkable blocks. Built for diversity with milder flavors and small portions — Tibetan dumplings, cheesy arepas, Argentine pastries, a Mexican torta to split. Easy pace, savory ↔ sweet ↔ break rhythm.",
+    stops:[
+      {t:"10:30 AM", n:"F train · Bergen St → 74th St-Roosevelt Av", lat:40.7466500, lng:-73.8910100,
+        d:"F direct from Bergen St through Manhattan into Queens. ~50 min. Exit at 74th St-Roosevelt Av (also served by 7/E/M/R)."},
+      {t:"11:30 AM", n:"74th St wander · Patel Brothers + sari shops", lat:40.7468000, lng:-73.8907000,
+        d:"Start with atmosphere, no food yet. Walk down 74th St &mdash; sari shops in jewel colors, gold jewelry windows, Indian grocery smells. <b>Patel Brothers</b> (37-27 74th St) is a spice + grocery wonderland &mdash; peek at the sweets case, grab packaged snacks for souvenirs. No pressure to eat anything pungent &mdash; just absorb it."},
+      {t:"12:15 PM", n:"Lhasa Fast Food · Tibetan momos", lat:40.7472900, lng:-73.8896700,
+        d:"LEGENDARY hidden Tibetan momo joint at the back of a phone shop. <b>Mild + universally lovable</b> — these are basically savory Asian dumplings. Order 8 beef momos to share. Skip the chili sauce if you want truly gentle. 37-50 74th St (back of the store)."},
+      {t:"1:15 PM", n:"Arepa Lady · Colombian cheese arepa", lat:40.7470900, lng:-73.8908600,
+        d:"Famous Colombian arepa — started as a street cart, now a small storefront. <b>Mild + comforting</b>: just grilled corn dough + melted mozzarella. The arepa de queso is the move. Share one. 77-17 37th Ave."},
+      {t:"2:15 PM", n:"La Gran Uruguaya Bakery · sweet break", lat:40.7480000, lng:-73.8810000,
+        d:"Argentine/Uruguayan bakery — <b>alfajores</b> (dulce de leche sandwich cookies), <b>medialunas</b> (sweet croissants), facturas. Mellow sweet break, sit-down vibe with espresso. 85-06 37th Ave."},
+      {t:"3:15 PM", n:"Diversity Plaza + Roosevelt Ave walk", lat:40.7466000, lng:-73.8918000,
+        d:"Walk it off. <b>Diversity Plaza</b> (37th Rd btwn 73rd &amp; 74th) is the pedestrianized heart of the neighborhood — vendors, families, every language. Stroll east along Roosevelt Ave under the 7 train to your next stop."},
+      {t:"3:45 PM", n:"Tortas Neza · Mexican torta (split one)", lat:40.7470000, lng:-73.8649000,
+        d:"Massive Mexican tortas named after soccer teams. <b>Split one</b> &mdash; they're huge. Ask for it <i>sin picante</i> (without spicy) and the milder ones are very approachable. The Pumas (chorizo + cheese + avocado) is famous but customizable. 111-03 Roosevelt Ave."},
+      {t:"4:45 PM", n:"Espresso 77 · cute neighborhood coffee", lat:40.7472200, lng:-73.8908100,
+        d:"Walk back west toward the subway. Sweet little neighborhood café — local crowd, good coffee, cookies. Sit-down breather before the train home. 35-57 77th St."},
+      {t:"~6:00 PM", n:"F train home", lat:40.6864, lng:-73.9905,
+        d:"F train back to Bergen St from 74th St-Roosevelt Av. ~50 min. Crash."}
+    ]
+  },
+  {
+    n:8, pillLabel:"Tue", color:"--d9", date:"Tue · Jun 9", title:"Departure Day · JetBlue 263 → 5:29 PM",
+    tag:"Solo · heading home", together:false,
+    narrative:"FLIGHT: JetBlue 263 out of JFK, departing 5:29 PM (Terminal 5). Target leaving home base by ~12:45 PM (3 hr buffer + ~75–90 min travel via F → A → AirTrain). Easy morning before that: pack, breakfast, last walk through the neighborhood.",
+    stops:[
+      {t:"Morning", n:"Pack up + breakfast", lat:40.6870, lng:-73.9985,
+        d:"Pack the night before so you're not rushed. If you have time: bagel at Court Street Grocers (485 Court St), one more walk through Brooklyn Bridge Park, or last-minute shopping. Aim to be packed & ready by noon."},
+      {t:"~12:45 PM", n:"Bergen St → F train", lat:40.6864, lng:-73.9905,
+        d:"Walk to Bergen St station. Take F train one stop toward Manhattan to Jay St-MetroTech. Use OMNY tap-to-pay."},
+      {t:"+5 min", n:"Jay St-MetroTech → A train", lat:40.6921472, lng:-73.9871061,
+        d:"Transfer to A train toward FAR ROCKAWAY or HOWARD BEACH (NOT Lefferts Blvd — that's a different branch). Ride to Howard Beach-JFK Airport, the last stop. ~40 min."},
+      {t:"+40 min", n:"Howard Beach → AirTrain", lat:40.6603, lng:-73.8302,
+        d:"Follow signs to AirTrain. Take AirTrain toward JFK Terminals. Get off at TERMINAL 5 (JetBlue). Tap out with contactless card to pay $8.50. ~10 min."},
+      {t:"~2:30 PM", n:"JFK Terminal 5 · JetBlue check-in", lat:40.6446, lng:-73.7797,
+        d:"Aim to arrive ~3 hours before the 5:29 PM departure. Terminal 5 is JetBlue's home base — check bags, clear security, find your gate. Flight: JetBlue 263. Safe travels home 💛"},
+      {t:"5:29 PM", n:"JetBlue 263 · departs JFK", lat:40.6446, lng:-73.7797,
+        d:"Wheels up. ✈️"}
+    ]
+  }
+];
+
+function makeIcon(kind, label, color){
+  var cls = kind==='home' ? 'pin home' : 'pin';
+  return L.divIcon({
+    className:'pin-wrap',
+    html:'<div class="'+cls+'" style="background:'+color+'"><span>'+label+'</span></div>',
+    iconSize: kind==='home' ? [22,22] : [30,38],
+    iconAnchor: kind==='home' ? [11,11] : [15,36],
+    popupAnchor: kind==='home' ? [0,-10] : [0,-32]
+  });
+}
+
+function popHTML(tag, name, desc, lat, lng){
+  var mapUrl = 'https://www.google.com/maps/dir/?api=1&destination='+lat+','+lng;
+  return '<div class="pop"><div class="pt">'+tag+'</div><h3 class="pn">'+name+'</h3><p class="pd">'+desc+'</p><a class="btn" href="'+mapUrl+'" target="_blank" rel="noopener">Open in Maps</a></div>';
+}
+
+var map = L.map('map', { zoomControl:true, attributionControl:false }).setView([40.73, -73.99], 12);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom:19 }).addTo(map);
+
+var baseLayer = L.layerGroup().addTo(map);
+var homeMarker = L.marker([HOME.lat, HOME.lng], { icon: makeIcon('home','A','#333') });
+var momMarker  = L.marker([MOM.lat,  MOM.lng ], { icon: makeIcon('home','M','#333') });
+homeMarker.bindPopup(popHTML('HOME BASE', HOME.name, HOME.note, HOME.lat, HOME.lng));
+momMarker.bindPopup(popHTML('WED–SAT NIGHTS', MOM.name, MOM.note, MOM.lat, MOM.lng));
+baseLayer.addLayer(homeMarker);
+baseLayer.addLayer(momMarker);
+
+var dayLayer = L.layerGroup().addTo(map);
+var activeDay = 1;
+
+function buildDayPills(){
+  var wrap = document.getElementById('days');
+  wrap.innerHTML = '';
+  var all = [WELCOME].concat(DAYS);
+  all.forEach(function(d){
+    var btn = document.createElement('button');
+    btn.className = 'pill';
+    btn.dataset.day = d.n;
+    var label = d.pillLabel || d.date.split(' · ')[0];
+    btn.innerHTML = '<span class="dot" style="background:var('+d.color+')"></span>'+label;
+    btn.addEventListener('click', function(){ selectDay(d.n); });
+    wrap.appendChild(btn);
+  });
+}
+
+function selectDay(n){
+  activeDay = n;
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.classList.toggle('active', Number(p.dataset.day)===n);
+  });
+  renderDay();
+}
+
+function renderDay(){
+  if (activeDay === 0) { renderWelcome(); return; }
+  var d;
+  for (var i=0;i<DAYS.length;i++){ if (DAYS[i].n===activeDay){ d = DAYS[i]; break; } }
+  if (!d) return;
+  var color = getComputedStyle(document.documentElement).getPropertyValue(d.color).trim();
+  dayLayer.clearLayers();
+  var bounds = [];
+  d.stops.forEach(function(s, i){
+    var m = L.marker([s.lat, s.lng], { icon: makeIcon('day', String(i+1), color) });
+    m.bindPopup(popHTML(s.t, s.n, s.d, s.lat, s.lng), { maxWidth: 280 });
+    m.addTo(dayLayer);
+    bounds.push([s.lat, s.lng]);
+  });
+  if(bounds.length){ map.fitBounds(bounds, { padding:[40,40], maxZoom: 14 }); }
+  var tagClass = d.together ? 'together' : 'solo';
+  var panel = document.getElementById('panel');
+  var stopsHtml = '';
+  d.stops.forEach(function(s, i){
+    stopsHtml += '<div class="stop" data-i="'+i+'"><div class="stime">'+s.t+'</div><div><div class="sname">'+s.n+'</div><div class="snote">'+s.d+'</div></div></div>';
+  });
+  panel.innerHTML = '<div class="ptitle">'+d.date+'</div><h2 class="pday">'+d.title+'</h2><span class="tag '+tagClass+'">'+d.tag+'</span><p class="pnarr">'+d.narrative+'</p><div class="stops">'+stopsHtml+'</div>';
+  panel.querySelectorAll('.stop').forEach(function(el){
+    el.addEventListener('click', function(){
+      var i = Number(el.dataset.i);
+      var s = d.stops[i];
+      map.flyTo([s.lat, s.lng], 15, { duration: .6 });
+      dayLayer.eachLayer(function(layer){
+        var ll = layer.getLatLng();
+        if(Math.abs(ll.lat - s.lat) < 1e-6 && Math.abs(ll.lng - s.lng) < 1e-6){
+          layer.openPopup();
+        }
+      });
+    });
+  });
+}
+
+function renderWelcome(){
+  var d = WELCOME;
+  dayLayer.clearLayers();
+  map.flyTo([HOME.lat, HOME.lng], 15, { duration:.5 });
+  var tagClass = 'together';
+  var panel = document.getElementById('panel');
+  var stopsHtml = '';
+  d.sections.forEach(function(s, i){
+    stopsHtml += '<div class="stop" data-i="'+i+'"><div class="stime">·</div><div><div class="sname">'+s.h+'</div><div class="snote">'+s.b+'</div></div></div>';
+  });
+  panel.innerHTML = '<div class="ptitle">'+d.date+'</div><h2 class="pday">'+d.title+'</h2><span class="tag '+tagClass+'">'+d.tag+'</span><p class="pnarr">'+d.narrative+'</p><div class="stops">'+stopsHtml+'</div>';
+}
+
+// Enrich home popup with quick-glance apt essentials
+homeMarker.setPopupContent(popHTML('HOME · 472 HENRY ST', HOME.name, "Cobble Hill, Brooklyn · F/G at Bergen St<br><br><b>WiFi:</b> \"Tell my Wi-Fi love her\" / sianabaya410<br><b>Anna:</b> 917-407-4118<br><b>Robby:</b> 415-542-8636<br><br>Tap 🏠 Home pill for full house guide.", HOME.lat, HOME.lng));
+
+buildDayPills();
+selectDay(1);
+
+}); // end waitForLeaflet
+</script>
+</body>
+</html>
