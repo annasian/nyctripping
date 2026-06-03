@@ -4,6 +4,23 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title> </title>
+
+<!-- favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- share preview · open graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="NYC Itinerary Roulette" />
+<meta property="og:description" content="One click. One real day in New York. A prototype by @annamal." />
+<meta property="og:image" content="https://annasian.github.io/nyctripping/og-image.png" />
+<meta property="og:url" content="https://annasian.github.io/nyctripping/" />
+
+<!-- share preview · twitter / imessage -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NYC Itinerary Roulette" />
+<meta name="twitter:description" content="One click. One real day in New York." />
+<meta name="twitter:image" content="https://annasian.github.io/nyctripping/og-image.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Space+Mono:wght@400;700&family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
@@ -497,15 +514,16 @@
         name: "the BoCoCa saturday",
         neighborhood: "boerum hill · cobble hill · carroll gardens",
         train: "F",
-        summary: "your own backyard, spelled out. coffee, sandwich, soda fountain, wine, lucali, and a public records nightcap.",
+        summary: "your own little backyard corner of brooklyn. coffee, sandwich, soda fountain, wine, lucali, and a public records nightcap.",
         stops: [
-          {time:"9:00 AM", type:"coffee", place:"Breakfast by Salt's Cure", note:"the breakfast sandwich and the biscuit. arrive before the line.", addr:"265 Smith St, Boerum Hill", maps:"https://www.google.com/maps/search/?api=1&query=Breakfast+by+Salt%27s+Cure+Brooklyn"},
-          {time:"11:30 AM", type:"walk", place:"Cobble Hill stroll", note:"Court St → Smith St → DAE for jewelry, Remedies Herb Shop for incense.", addr:"Court & Bergen", maps:"https://www.google.com/maps/search/?api=1&query=Cobble+Hill+Brooklyn"},
-          {time:"1:00 PM", type:"lunch", place:"Court Street Grocers", note:"the bodega-sandwich king. get The Stuffer, eat outside.", addr:"485 Court St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Court+Street+Grocers"},
+          {time:"9:00 AM", type:"coffee", place:"Breakfast by Salt's Cure", note:"the best oatmeal griddle pancakes. arrive before the line.", addr:"265 Smith St, Boerum Hill", maps:"https://www.google.com/maps/search/?api=1&query=Breakfast+by+Salt%27s+Cure+Brooklyn"},
+          {time:"11:30 AM", type:"shop", place:"Cobble Hill + Carroll Gardens browse", note:"Yesterday's News for antiques, Remedies Herb Shop for incense, Le French Tart for pastries. Court St into Smith St.", addr:"Court & Bergen", maps:"https://www.google.com/maps/search/?api=1&query=Cobble+Hill+Brooklyn"},
+          {time:"12:30 PM", type:"books", place:"Liz's Book Bar", note:"bookstore + tiny natural wine bar in one room. browse, get a glass, ask liz for a rec.", addr:"225 Smith St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Liz%27s+Book+Bar+Brooklyn"},
+          {time:"1:30 PM", type:"lunch", place:"Court Street Grocers", note:"the sandwich king. they don't miss, eat outside if the weather isn't terrible.", addr:"485 Court St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Court+Street+Grocers"},
           {time:"3:00 PM", type:"treat", place:"Brooklyn Farmacy & Soda Fountain", note:"egg cream and a sundae. it's a hundred-year-old apothecary now serving ice cream.", addr:"513 Henry St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Farmacy+%26+Soda+Fountain"},
           {time:"5:30 PM", type:"wine", place:"June", note:"natural wine bar, candlelit. sit at the bar if you can.", addr:"231 Court St, Cobble Hill", maps:"https://www.google.com/maps/search/?api=1&query=June+wine+bar+Brooklyn", resy:"https://resy.com/cities/new-york-ny/venues/june-wine-bar"},
-          {time:"8:00 PM", type:"dinner", place:"Lucali", note:"brick-oven pizza, no slices, cash only. expect a 1–2 hour wait. that's the deal.", addr:"575 Henry St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Lucali+Brooklyn"},
-          {time:"11:00 PM", type:"nightcap", place:"Public Records", note:"hi-fi listening bar + tonics. low-key, great sound system.", addr:"233 Butler St, Gowanus", maps:"https://www.google.com/maps/search/?api=1&query=Public+Records+Brooklyn", web:"https://publicrecords.nyc/"}
+          {time:"8:00 PM", type:"dinner", place:"Lucali", note:"brick-oven pizza, no slices, cash only. expect a 1–2 hour wait. that's the deal. closed tuesdays.", addr:"575 Henry St, Carroll Gardens", maps:"https://www.google.com/maps/search/?api=1&query=Lucali+Brooklyn"},
+          {time:"11:00 PM", type:"nightcap", place:"Public Records", note:"hi-fi listening bar + tonics. low-key, great sound system. wed–sun only.", addr:"233 Butler St, Gowanus", maps:"https://www.google.com/maps/search/?api=1&query=Public+Records+Brooklyn", web:"https://publicrecords.nyc/"}
         ]
       },
       {
@@ -514,13 +532,13 @@
         train: "F",
         summary: "manhattan's south end, eaten through. roast pork bun, late-night dumplings, a slice walking through dimes, and a basement sake bar to close.",
         stops: [
-          {time:"9:30 AM", type:"breakfast", place:"Mei Lai Wah", note:"roast pork bun and milk coffee. order at the counter, sit anywhere.", addr:"64 Bayard St, Chinatown", maps:"https://www.google.com/maps/search/?api=1&query=Mei+Lai+Wah+NYC"},
+          {time:"9:30 AM", type:"breakfast", place:"Mei Lai Wah", note:"pineapple roast pork bun and milk tea. order at the kiosk, take it to go and keep moving. lots to eat in chinatown.", addr:"64 Bayard St, Chinatown", maps:"https://www.google.com/maps/search/?api=1&query=Mei+Lai+Wah+NYC"},
           {time:"11:30 AM", type:"walk", place:"Doyers + Chinatown wander", note:"Doyers St then up Mott. stop at Bangkok Center Grocery if it's open.", addr:"Doyers St, Chinatown", maps:"https://www.google.com/maps/search/?api=1&query=Doyers+Street+NYC"},
           {time:"1:00 PM", type:"lunch", place:"Wu's Wonton King", note:"cheap, fast, perfect. order the wonton noodle soup + a side of greens.", addr:"165 E Broadway, LES", maps:"https://www.google.com/maps/search/?api=1&query=Wu%27s+Wonton+King"},
-          {time:"3:00 PM", type:"slice", place:"Scarr's Pizza", note:"the best slice argument in the city right now. eat at the counter.", addr:"35 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Scarr%27s+Pizza"},
-          {time:"5:00 PM", type:"snack", place:"Veniero's Pasticceria", note:"cannoli + espresso, century-old italian bakery in the east village.", addr:"342 E 11th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Veniero%27s+Pasticceria"},
+          {time:"3:00 PM", type:"slice", place:"Scarr's Pizza", note:"a very trendy slice in the city right now, an interesting spot for people watching. eat at the counter.", addr:"35 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Scarr%27s+Pizza"},
+          {time:"5:00 PM", type:"snack", place:"Veniero's Pasticceria", note:"cannoli + espresso, maybe a mini cheesecake. century-old italian bakery in the east village.", addr:"342 E 11th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Veniero%27s+Pasticceria"},
           {time:"7:30 PM", type:"dinner", place:"Russ & Daughters Cafe", note:"sit-down version of the deli. the latkes are non-negotiable.", addr:"127 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Russ+%26+Daughters+Cafe", resy:"https://resy.com/cities/new-york-ny/venues/russ-and-daughters-cafe"},
-          {time:"10:30 PM", type:"nightcap", place:"Sake Bar Decibel", note:"basement sake bar, graffiti walls, look for the 'on air' sign. loud, hot, perfect.", addr:"240 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Sake+Bar+Decibel"}
+          {time:"10:30 PM", type:"nightcap", place:"Sake Bar Decibel", note:"basement sake bar, graffiti walls, look for the 'on air' sign. loud, hot, perfect. closed mon + sun.", addr:"240 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Sake+Bar+Decibel"}
         ]
       },
       {
@@ -534,8 +552,8 @@
           {time:"12:30 PM", type:"lunch", place:"River Deli", note:"tiny sardinian spot on hicks. the bottarga pasta or the special.", addr:"32 Joralemon St, Brooklyn Heights", maps:"https://www.google.com/maps/search/?api=1&query=River+Deli+Brooklyn"},
           {time:"2:30 PM", type:"park", place:"Brooklyn Bridge Park", note:"walk south through Pier 1 → Pier 6. swing through Jane's Carousel.", addr:"Brooklyn Bridge Park", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge+Park"},
           {time:"5:00 PM", type:"snack", place:"Sahadi's", note:"middle eastern grocer. pack a snack bag — olives, halva, dates.", addr:"187 Atlantic Ave, Brooklyn Heights", maps:"https://www.google.com/maps/search/?api=1&query=Sahadi%27s+Brooklyn"},
-          {time:"7:30 PM", type:"dinner", place:"Noodle Pudding", note:"unmarked italian, no reservations, packed every night. the gnocchi.", addr:"38 Henry St, Brooklyn Heights", maps:"https://www.google.com/maps/search/?api=1&query=Noodle+Pudding+Brooklyn"},
-          {time:"10:30 PM", type:"nightcap", place:"The Long Island Bar", note:"the martini that started the modern martini revival. sit at the bar.", addr:"110 Atlantic Ave, Cobble Hill", maps:"https://www.google.com/maps/search/?api=1&query=The+Long+Island+Bar"}
+          {time:"7:30 PM", type:"dinner", place:"Noodle Pudding", note:"unmarked italian, no reservations, packed every night. the gnocchi. lasagna!", addr:"38 Henry St, Brooklyn Heights", maps:"https://www.google.com/maps/search/?api=1&query=Noodle+Pudding+Brooklyn"},
+          {time:"10:30 PM", type:"nightcap", place:"The Long Island Bar", note:"the martini that started the modern martini revival. was recently a location in the new Devil Wears Prada. sit at the bar.", addr:"110 Atlantic Ave, Cobble Hill", maps:"https://www.google.com/maps/search/?api=1&query=The+Long+Island+Bar"}
         ]
       },
       {
@@ -544,7 +562,7 @@
         train: "7",
         summary: "the deepest cut. dim sum brunch, cold dumplings to go, the 7 train ride that's half the experience, birria tacos, ayada for the night.",
         stops: [
-          {time:"11:00 AM", type:"brunch", place:"Asian Jewels", note:"flushing dim sum hall. push your way to the cart with shrimp dumplings.", addr:"133-30 39th Ave, Flushing", maps:"https://www.google.com/maps/search/?api=1&query=Asian+Jewels+Flushing"},
+          {time:"11:00 AM", type:"brunch", place:"Asian Jewels", note:"flushing dim sum banquet hall. shrimp and pork shumai is always a classic. try something new.", addr:"133-30 39th Ave, Flushing", maps:"https://www.google.com/maps/search/?api=1&query=Asian+Jewels+Flushing"},
           {time:"1:00 PM", type:"snack", place:"White Bear", note:"cold spicy dumplings, $5 cash. eat them standing outside.", addr:"135-02 Roosevelt Ave, Flushing", maps:"https://www.google.com/maps/search/?api=1&query=White+Bear+Flushing"},
           {time:"2:30 PM", type:"walk", place:"Main Street Flushing", note:"new world mall food court if you're still hungry. otherwise just wander.", addr:"Main St, Flushing", maps:"https://www.google.com/maps/search/?api=1&query=Main+Street+Flushing"},
           {time:"4:00 PM", type:"transit", place:"7 train · Flushing → 74th St", note:"30 min ride. above-ground for most of it. one of the best subway rides in the city.", addr:"7 train", maps:"https://new.mta.info/maps/subway"},
@@ -562,10 +580,10 @@
           {time:"12:00 PM", type:"brunch", place:"Veselka", note:"ukrainian diner since 1954. pierogi + a coffee. open 24 hours.", addr:"144 2nd Ave, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Veselka+NYC"},
           {time:"2:00 PM", type:"books", place:"McNally Jackson", note:"or East Village Books, or Strand. read for an hour.", addr:"52 Prince St, Nolita", maps:"https://www.google.com/maps/search/?api=1&query=McNally+Jackson+Books"},
           {time:"4:00 PM", type:"coffee", place:"Hi-Collar", note:"japanese coffee bar by day, sake bar by night. the espresso flight.", addr:"231 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Hi-Collar+NYC"},
-          {time:"6:00 PM", type:"wander", place:"Tompkins Square Park", note:"sit on a bench, watch the neighborhood. dogs everywhere.", addr:"Tompkins Square Park", maps:"https://www.google.com/maps/search/?api=1&query=Tompkins+Square+Park"},
+          {time:"6:00 PM", type:"shop", place:"Casey Rubber Stamps", note:"the legendary one-room rubber stamp shop. hundreds of designs, custom orders, ten bucks. weirdly the best souvenir you'll bring home.", addr:"322 E 11th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Casey+Rubber+Stamps"},
           {time:"7:30 PM", type:"dinner", place:"Cafe Mogador", note:"moroccan, been here forever. the harira soup + lamb tagine.", addr:"101 St Marks Pl, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Cafe+Mogador", resy:"https://resy.com/cities/new-york-ny/venues/cafe-mogador-east-village"},
           {time:"10:00 PM", type:"drinks", place:"KENKA", note:"japanese izakaya, divey, cheap. order the takoyaki + cold sake.", addr:"25 St Marks Pl, East Village", maps:"https://www.google.com/maps/search/?api=1&query=KENKA+NYC"},
-          {time:"12:00 AM", type:"nightcap", place:"Sake Bar Decibel", note:"basement, graffiti walls, late-night sake until 3am.", addr:"240 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Sake+Bar+Decibel"}
+          {time:"12:00 AM", type:"nightcap", place:"Sake Bar Decibel", note:"basement, graffiti walls, late-night sake until 3am. closed mon + sun.", addr:"240 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Sake+Bar+Decibel"}
         ]
       },
       {
@@ -580,7 +598,7 @@
           {time:"3:30 PM", type:"snack", place:"Caffe Reggio", note:"1927. green awning. a cappuccino at an outdoor table.", addr:"119 MacDougal St, Greenwich Village", maps:"https://www.google.com/maps/search/?api=1&query=Caffe+Reggio"},
           {time:"6:00 PM", type:"wine", place:"Anfora", note:"low-lit, small, italian wines by the glass. share a few plates.", addr:"34 8th Ave, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Anfora+wine+bar+NYC"},
           {time:"8:00 PM", type:"dinner", place:"I Sodi", note:"the lasagna is the move. tiny room, hard rez — book ahead or go early.", addr:"105 Christopher St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=I+Sodi+NYC", resy:"https://resy.com/cities/new-york-ny/venues/i-sodi"},
-          {time:"11:00 PM", type:"jazz", place:"Smalls Jazz Club", note:"basement jazz, $30 cover, three sets a night. stay late.", addr:"183 W 10th St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Smalls+Jazz+Club"}
+          {time:"11:00 PM", type:"jazz", place:"Smalls Jazz Club", note:"OG basement jazz, $30ish cover, totally woth it. three sets a night. stay late.", addr:"183 W 10th St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Smalls+Jazz+Club"}
         ]
       },
       {
@@ -592,7 +610,7 @@
           {time:"9:00 AM", type:"breakfast", place:"Russ & Daughters Cafe", note:"start strong. salmon eggs benedict + a latte. you'll need the energy.", addr:"127 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Russ+%26+Daughters+Cafe", resy:"https://resy.com/cities/new-york-ny/venues/russ-and-daughters-cafe"},
           {time:"11:00 AM", type:"icon", place:"Brooklyn Bridge walk", note:"start at the manhattan side. one direction only, then take the subway back.", addr:"Brooklyn Bridge", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge"},
           {time:"1:00 PM", type:"lunch", place:"Katz's Delicatessen", note:"pastrami on rye, get the ticket. yes there's a line, it moves fast.", addr:"205 E Houston St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Katz%27s+Delicatessen"},
-          {time:"3:00 PM", type:"museum", place:"The Met", note:"go in. wander. see the egyptian wing + the rooftop garden if it's open.", addr:"1000 5th Ave, UES", maps:"https://www.google.com/maps/search/?api=1&query=The+Metropolitan+Museum+of+Art"},
+          {time:"3:00 PM", type:"museum", place:"The Met", note:"go in. wander. see the egyptian wing + the rooftop garden if it's open. closed wednesdays.", addr:"1000 5th Ave, UES", maps:"https://www.google.com/maps/search/?api=1&query=The+Metropolitan+Museum+of+Art"},
           {time:"6:00 PM", type:"icon", place:"Top of the Rock", note:"sunset view. better than the empire state, fight me.", addr:"30 Rockefeller Plaza", maps:"https://www.google.com/maps/search/?api=1&query=Top+of+the+Rock+NYC"},
           {time:"8:00 PM", type:"dinner", place:"Carbone", note:"if you can get a rez, the spicy rigatoni vodka is worth it. plan ahead.", addr:"181 Thompson St, Greenwich Village", maps:"https://www.google.com/maps/search/?api=1&query=Carbone+NYC", resy:"https://resy.com/cities/new-york-ny/venues/carbone"},
           {time:"11:00 PM", type:"nightcap", place:"Bemelmans Bar at The Carlyle", note:"the secret last move. live piano. classic martini. dress up a little.", addr:"35 E 76th St, UES", maps:"https://www.google.com/maps/search/?api=1&query=Bemelmans+Bar"}
@@ -605,12 +623,12 @@
         summary: "coffee, the studio museum, strivers' row, soul food at sylvia's, jazz at minton's. the day uptown that everyone tells you they'll do and never does.",
         stops: [
           {time:"10:00 AM", type:"coffee", place:"Plowshares Coffee Bloomingdale", note:"the original lenox location. flat white + a corner seat.", addr:"2730 Frederick Douglass Blvd, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Plowshares+Coffee+Harlem"},
-          {time:"11:30 AM", type:"museum", place:"The Studio Museum in Harlem", note:"the new David Adjaye building. focused on artists of african descent. one of the city's best.", addr:"144 W 125th St, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Studio+Museum+in+Harlem"},
+          {time:"11:30 AM", type:"museum", place:"The Studio Museum in Harlem", note:"the new David Adjaye building. focused on artists of african descent. one of the city's best. wed–sun only.", addr:"144 W 125th St, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Studio+Museum+in+Harlem"},
           {time:"1:30 PM", type:"walk", place:"Strivers' Row + Mt. Morris Park", note:"138th–139th between 7th and 8th. the Harlem Renaissance townhouses. then Mt. Morris for the watchtower.", addr:"W 138th–139th St, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Strivers+Row+Harlem"},
           {time:"3:00 PM", type:"lunch", place:"Sylvia's", note:"the queen of soul food, since 1962. fried chicken + waffles + the candied yams.", addr:"328 Malcolm X Blvd, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Sylvia%27s+Harlem"},
           {time:"5:30 PM", type:"break", place:"Settepani", note:"italian bakery on lenox. espresso + a pastry. recharge.", addr:"196 Malcolm X Blvd, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Settepani+Harlem"},
           {time:"7:30 PM", type:"dinner", place:"Red Rooster", note:"marcus samuelsson's spot. the dirty rice + the cornbread are non-negotiable.", addr:"310 Malcolm X Blvd, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Red+Rooster+Harlem", web:"https://redroosterharlem.com/"},
-          {time:"10:00 PM", type:"jazz", place:"Minton's Playhouse", note:"where bebop was born. there's a cover, there's a dress code, there's a reason both exist.", addr:"206 W 118th St, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Minton%27s+Playhouse+Harlem"}
+          {time:"10:00 PM", type:"jazz", place:"Minton's Playhouse", note:"where bebop was born. there's a cover, there's a dress code, there's a reason both exist. wed–sun only.", addr:"206 W 118th St, Harlem", maps:"https://www.google.com/maps/search/?api=1&query=Minton%27s+Playhouse+Harlem"}
         ]
       },
       {
@@ -620,7 +638,7 @@
         summary: "evening only. cocktails to start, pizza, a show at elsewhere, then a basement techno hour at bossa nova. taxi home is a feature, not a bug.",
         stops: [
           {time:"6:30 PM", type:"cocktails", place:"Birdy's", note:"low-lit, candlelit, perfect cocktails. start the night here.", addr:"248 Varet St, East Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=Birdy%27s+Brooklyn"},
-          {time:"7:30 PM", type:"dinner", place:"Roberta's", note:"the pizza nobody can stop talking about. order the bee sting + a salad. eat in the garden if it's open.", addr:"261 Moore St, Bushwick", maps:"https://www.google.com/maps/search/?api=1&query=Roberta%27s+Pizza+Bushwick", resy:"https://resy.com/cities/new-york-ny/venues/robertas-restaurant"},
+          {time:"7:30 PM", type:"dinner", place:"Roberta's", note:"the pizza that kind of started it all in williamsburg. order the bee sting + a salad. eat in the garden if it's open.", addr:"261 Moore St, Bushwick", maps:"https://www.google.com/maps/search/?api=1&query=Roberta%27s+Pizza+Bushwick", resy:"https://resy.com/cities/new-york-ny/venues/robertas-restaurant"},
           {time:"9:30 PM", type:"drinks", place:"Wonderville", note:"arcade bar. play a few rounds while you wait for the night to actually start.", addr:"1186 Broadway, Bushwick", maps:"https://www.google.com/maps/search/?api=1&query=Wonderville+Bushwick"},
           {time:"11:00 PM", type:"music", place:"Elsewhere", note:"multi-room venue, rotating lineups, anything from indie to house. check the calendar.", addr:"599 Johnson Ave, Bushwick", maps:"https://www.google.com/maps/search/?api=1&query=Elsewhere+Brooklyn", web:"https://www.elsewherebrooklyn.com/"},
           {time:"1:00 AM", type:"dance", place:"Bossa Nova Civic Club", note:"the techno spot. divey, hot, loud, perfect. don't bring your laptop.", addr:"1271 Myrtle Ave, Bushwick", maps:"https://www.google.com/maps/search/?api=1&query=Bossa+Nova+Civic+Club"},
@@ -631,15 +649,15 @@
         name: "greenpoint → williamsburg saturday",
         neighborhood: "greenpoint · williamsburg",
         train: "G",
-        summary: "radio bakery, the park, a slice at L'industrie, vintage on bedford, books at archestratus, oysters at maison premiere, esme for dinner. the full G-train day.",
+        summary: "radio bakery, the park, a slice at L'industrie, vintage on bedford, books at archestratus, oysters at maison premiere, glasserie for dinner. the full G-train day.",
         stops: [
-          {time:"10:00 AM", type:"breakfast", place:"Radio Bakery", note:"croissants and a flat white. arrive before the line forms outside.", addr:"135 India St, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=Radio+Bakery+Greenpoint"},
+          {time:"10:00 AM", type:"breakfast", place:"Radio Bakery", note:"whatever looks most fresh, you can't go wrong. arrive before the line forms outside.", addr:"135 India St, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=Radio+Bakery+Greenpoint"},
           {time:"11:30 AM", type:"park", place:"McCarren Park", note:"walk through. people-watch. it's the brooklyn version of central park if you squint.", addr:"McCarren Park, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=McCarren+Park"},
           {time:"12:30 PM", type:"slice", place:"L'Industrie Pizzeria", note:"the slice that broke the internet. burrata square + a pepperoni. eat outside on the curb.", addr:"254 S 2nd St, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=L%27Industrie+Pizzeria"},
           {time:"2:00 PM", type:"vintage", place:"10 ft Single by Stella Dallas + L Train Vintage", note:"bedford ave thrifting. two stops. an hour and an empty wallet later.", addr:"285 N 6th St, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=10+ft+Single+Stella+Dallas"},
-          {time:"4:00 PM", type:"books", place:"Archestratus Books + Foods", note:"cookbook shop + tiny cafe. browse, get a slice of sicilian, take notes.", addr:"160 Huron St, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=Archestratus+Books+Greenpoint"},
+          {time:"4:00 PM", type:"books", place:"WORD Bookstore + Archestratus", note:"WORD on franklin for the new fiction tables, then archestratus on huron for the cookbook collection. one block apart.", addr:"126 Franklin St, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=WORD+Bookstore+Greenpoint"},
           {time:"6:30 PM", type:"oysters", place:"Maison Premiere", note:"absinthe + oyster happy hour until 7. sit at the bar. the move.", addr:"298 Bedford Ave, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=Maison+Premiere", resy:"https://resy.com/cities/new-york-ny/venues/maison-premiere"},
-          {time:"8:30 PM", type:"dinner", place:"Esme", note:"creative new american. the bread course, the pasta, the room. all of it.", addr:"999 Manhattan Ave, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=Esme+Greenpoint", resy:"https://resy.com/cities/new-york-ny/venues/esme"}
+          {time:"8:30 PM", type:"dinner", place:"Glasserie", note:"mediterranean in an 1880s glass factory at the north tip of greenpoint. the mezze spread + a grilled fish. beautiful room.", addr:"95 Commercial St, Greenpoint", maps:"https://www.google.com/maps/search/?api=1&query=Glasserie+Greenpoint", web:"https://www.glasserie.com/"}
         ]
       },
       {
@@ -668,7 +686,111 @@
           {time:"2:00 PM", type:"snack", place:"Scarr's Pizza", note:"the vegan slice is real and it's good. trust scarr.", addr:"35 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Scarr%27s+Pizza"},
           {time:"4:00 PM", type:"sweet", place:"Dun-Well Doughnuts", note:"the L train ride to williamsburg is worth it. vegan doughnuts that pass the test.", addr:"222 Montrose Ave, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=Dun-Well+Doughnuts"},
           {time:"7:00 PM", type:"dinner", place:"Dirt Candy", note:"amanda cohen's vegetable tasting menu. legendary, michelin-starred, no apologies.", addr:"86 Allen St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Dirt+Candy+NYC", resy:"https://resy.com/cities/new-york-ny/venues/dirt-candy"},
-          {time:"10:30 PM", type:"nightcap", place:"Public Records", note:"the cafe-by-day is fully plant-based + the bar at night is vegan-friendly. natural wine, hi-fi sound.", addr:"233 Butler St, Gowanus", maps:"https://www.google.com/maps/search/?api=1&query=Public+Records+Brooklyn", web:"https://publicrecords.nyc/"}
+          {time:"10:30 PM", type:"nightcap", place:"Public Records", note:"the cafe-by-day is fully plant-based + the bar at night is vegan-friendly. natural wine, hi-fi sound. wed–sun only.", addr:"233 Butler St, Gowanus", maps:"https://www.google.com/maps/search/?api=1&query=Public+Records+Brooklyn", web:"https://publicrecords.nyc/"}
+        ]
+      },
+      {
+        name: "the art crawl",
+        neighborhood: "soho · nolita",
+        train: "6",
+        summary: "two free walter de maria installations nobody knows about, a stationery shop, an espresso at aime leon dore, and dinner at raoul's. the day that makes you feel like a downtown person.",
+        stops: [
+          {time:"10:00 AM", type:"coffee", place:"La Cabra Soho", note:"danish coffee. order the cardamom bun. window seat if you can.", addr:"152 Spring St, Soho", maps:"https://www.google.com/maps/search/?api=1&query=La+Cabra+Soho"},
+          {time:"12:00 PM", type:"art", place:"The Broken Kilometer", note:"walter de maria, 1979. 500 polished brass rods in a soho loft. free. wed–sun only, opens at noon.", addr:"393 W Broadway, Soho", maps:"https://www.google.com/maps/search/?api=1&query=The+Broken+Kilometer+NYC", web:"https://diaart.org/visit/visit-our-locations-sites/walter-de-maria-the-broken-kilometer-new-york-united-states"},
+          {time:"1:00 PM", type:"art", place:"The New York Earth Room", note:"the second de maria. 280,000 pounds of dirt in a loft since 1977. five-minute walk from the kilometer. also free.", addr:"141 Wooster St, Soho", maps:"https://www.google.com/maps/search/?api=1&query=The+New+York+Earth+Room"},
+          {time:"2:00 PM", type:"lunch", place:"Lupa", note:"mario batali's roman trattoria. cacio e pepe + a glass of frascati. linger.", addr:"170 Thompson St, Greenwich Village", maps:"https://www.google.com/maps/search/?api=1&query=Lupa+Trattoria"},
+          {time:"4:00 PM", type:"shop", place:"Aimé Leon Dore", note:"the flagship store + the espresso bar. browse the new collection, sit in the back room with a cortado.", addr:"214 Mulberry St, Nolita", maps:"https://www.google.com/maps/search/?api=1&query=Aime+Leon+Dore+Mulberry"},
+          {time:"5:00 PM", type:"shop", place:"Dossier 242", note:"tiny fragrance + lifestyle boutique on elizabeth. spend twenty minutes smelling everything. leave with one thing.", addr:"242 Elizabeth St, Nolita", maps:"https://www.google.com/maps/search/?api=1&query=Dossier+242+Elizabeth+St"},
+          {time:"8:00 PM", type:"dinner", place:"Raoul's", note:"french bistro since 1975. steak au poivre, sit at the bar, the perfect end to a downtown day.", addr:"180 Prince St, Soho", maps:"https://www.google.com/maps/search/?api=1&query=Raoul%27s+NYC", resy:"https://resy.com/cities/new-york-ny/venues/raoulsrestaurant"}
+        ]
+      },
+      {
+        name: "the red hook day",
+        neighborhood: "red hook · carroll gardens",
+        train: "F",
+        summary: "south brooklyn, water on every side. defonte's, pioneer works, key lime pie, drinks at sunny's, dinner at red hook tavern. the slowest day in the city.",
+        stops: [
+          {time:"10:00 AM", type:"coffee", place:"Brooklyn Roasting Company", note:"red hook outpost. the cold brew, the pastry case, the smell of the harbor.", addr:"25 Jay St — but the red hook one at Conover, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Roasting+Company+Red+Hook"},
+          {time:"11:30 AM", type:"walk", place:"Van Brunt Street walk", note:"the spine of red hook. galleries, shipwreck-style storefronts, sea-level water views.", addr:"Van Brunt St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Van+Brunt+Street+Red+Hook"},
+          {time:"12:30 PM", type:"lunch", place:"Defonte's Sandwich Shop", note:"old-school italian deli, since 1922. the potato + egg or the eggplant parm. cash. take it to go and eat at the water.", addr:"379 Columbia St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Defonte%27s+Sandwich+Shop"},
+          {time:"2:00 PM", type:"art", place:"Pioneer Works", note:"art + tech residency space, often free. check the calendar for open studios. wed–sun only.", addr:"159 Pioneer St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Pioneer+Works+Red+Hook"},
+          {time:"4:00 PM", type:"snack", place:"Steve's Authentic Key Lime Pie", note:"the swingle (key lime pie dipped in chocolate). eat by the water on the picnic tables.", addr:"185 Van Dyke St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Steve%27s+Key+Lime+Pie"},
+          {time:"6:00 PM", type:"drinks", place:"Sunny's Bar", note:"a longshoreman's bar from 1890. bluegrass on saturday nights, live music every night except mondays. red hook's beating heart.", addr:"253 Conover St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Sunny%27s+Bar+Red+Hook"},
+          {time:"8:00 PM", type:"dinner", place:"Red Hook Tavern", note:"the burger argument-ender. or the strip steak. either way you'll be talking about it tomorrow.", addr:"329 Van Brunt St, Red Hook", maps:"https://www.google.com/maps/search/?api=1&query=Red+Hook+Tavern", resy:"https://resy.com/cities/new-york-ny/venues/red-hook-tavern"}
+        ]
+      },
+      {
+        name: "coney island + brighton beach",
+        neighborhood: "coney island · brighton beach",
+        train: "F",
+        summary: "summer-only. the boardwalk, nathan's, the wonder wheel, then the long walk to brighton for caviar and zubrowka. ends with spumoni gardens on the way back.",
+        stops: [
+          {time:"10:30 AM", type:"icon", place:"Coney Island Boardwalk", note:"start at stillwell ave, walk east. the smell is hot dogs and saltwater. unbeatable.", addr:"Riegelmann Boardwalk, Coney Island", maps:"https://www.google.com/maps/search/?api=1&query=Coney+Island+Boardwalk"},
+          {time:"11:30 AM", type:"ride", place:"Wonder Wheel + the Cyclone", note:"buy the combo ticket. the wheel is the move; the cyclone is for credibility.", addr:"Deno's Wonder Wheel Park", maps:"https://www.google.com/maps/search/?api=1&query=Wonder+Wheel+Coney+Island"},
+          {time:"1:00 PM", type:"hotdog", place:"Nathan's Famous (the original)", note:"the original location, since 1916. order two with everything + cheese fries. eat outside.", addr:"1310 Surf Ave, Coney Island", maps:"https://www.google.com/maps/search/?api=1&query=Nathan%27s+Famous+Coney+Island"},
+          {time:"2:30 PM", type:"walk", place:"Boardwalk → Brighton Beach", note:"20-minute walk east along the boardwalk. by the time you arrive the signs are in cyrillic.", addr:"Riegelmann Boardwalk to Brighton Beach Ave", maps:"https://www.google.com/maps/search/?api=1&query=Brighton+Beach+Boardwalk"},
+          {time:"3:30 PM", type:"snack", place:"Brighton Bazaar", note:"the russian supermarket. blini, pickles, smoked fish, ten kinds of caviar. pack a picnic, eat on the sand.", addr:"1007 Brighton Beach Ave, Brighton Beach", maps:"https://www.google.com/maps/search/?api=1&query=Brighton+Bazaar"},
+          {time:"5:30 PM", type:"dinner", place:"Tatiana Restaurant", note:"the russian/ukrainian dinner show. live music, vodka by the bottle, more food than you can finish. wear something.", addr:"3152 Brighton 6th St, Brighton Beach", maps:"https://www.google.com/maps/search/?api=1&query=Tatiana+Restaurant+Brighton"},
+          {time:"9:00 PM", type:"on-the-way-home", place:"L&B Spumoni Gardens", note:"bensonhurst. square slice + spumoni. the brooklyn move on the way back to manhattan.", addr:"2725 86th St, Bensonhurst", maps:"https://www.google.com/maps/search/?api=1&query=L%26B+Spumoni+Gardens"}
+        ]
+      },
+      {
+        name: "the first-date night",
+        neighborhood: "west village · greenwich village",
+        train: "1",
+        summary: "evening only. low-stakes coffee, a walk, dinner that's intimate not intense, drinks that lead somewhere, and a basement jazz exit. built-in escape hatches every step.",
+        stops: [
+          {time:"5:30 PM", type:"coffee", place:"Hi-Collar", note:"japanese coffee bar by day. order at the counter, sit at the small bar. low pressure, no menus to negotiate.", addr:"231 E 9th St, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Hi-Collar+NYC"},
+          {time:"6:30 PM", type:"walk", place:"Washington Square Park → West Village", note:"walk west. the arch, the chess players, the brownstones. talk happens.", addr:"Washington Square Park", maps:"https://www.google.com/maps/search/?api=1&query=Washington+Square+Park"},
+          {time:"7:30 PM", type:"dinner", place:"June Wine Bar (or Buvette)", note:"book june if you can. otherwise buvette — the wait is the date. small plates, candles, low music.", addr:"231 Court St, Cobble Hill", maps:"https://www.google.com/maps/search/?api=1&query=June+wine+bar+Brooklyn", resy:"https://resy.com/cities/new-york-ny/venues/june-wine-bar"},
+          {time:"9:30 PM", type:"walk", place:"Bleecker → Bank → Hudson", note:"a slow walk through the prettiest blocks in the city. take your time.", addr:"Bleecker St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Bleecker+Street+West+Village"},
+          {time:"10:00 PM", type:"jazz", place:"Smalls Jazz Club", note:"basement jazz, $30 cover, three sets a night. you can leave between sets if it's not working. or stay.", addr:"183 W 10th St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Smalls+Jazz+Club"},
+          {time:"12:00 AM", type:"nightcap", place:"Bemelmans Bar at The Carlyle", note:"if the night is going somewhere. live piano, dim, dressy. only suggest this if you mean it.", addr:"35 E 76th St, UES", maps:"https://www.google.com/maps/search/?api=1&query=Bemelmans+Bar"}
+        ]
+      },
+      {
+        name: "the solo sunday",
+        neighborhood: "east village · soho · west village",
+        train: "L",
+        summary: "for one. coffee at the bar, a long park walk, a museum at your own pace, a counter dinner, a basement jazz set. nobody you have to talk to.",
+        stops: [
+          {time:"9:30 AM", type:"coffee", place:"Devoción", note:"big windows, a long communal table, the kind of place a book belongs. order a flat white.", addr:"69 Grand St, Williamsburg", maps:"https://www.google.com/maps/search/?api=1&query=Devoci%C3%B3n+Williamsburg"},
+          {time:"11:00 AM", type:"walk", place:"East River Park → Williamsburg Bridge", note:"walk the bridge to manhattan. an hour, with the city slowly arriving.", addr:"Williamsburg Bridge", maps:"https://www.google.com/maps/search/?api=1&query=Williamsburg+Bridge+walk"},
+          {time:"1:00 PM", type:"lunch", place:"Veselka", note:"counter seat. order pierogi + borscht + a coffee. open all hours. nobody bothers you.", addr:"144 2nd Ave, East Village", maps:"https://www.google.com/maps/search/?api=1&query=Veselka+NYC"},
+          {time:"3:00 PM", type:"books", place:"The Strand", note:"three floors. the rare book room upstairs is the quiet one.", addr:"828 Broadway, Union Square", maps:"https://www.google.com/maps/search/?api=1&query=The+Strand+Bookstore"},
+          {time:"5:00 PM", type:"museum", place:"The Whitney (or the New Museum)", note:"whitney for the view, new museum for the calendar. either way, take your time. whitney closed tues; new museum closed mon.", addr:"99 Gansevoort St, Meatpacking", maps:"https://www.google.com/maps/search/?api=1&query=The+Whitney+Museum"},
+          {time:"7:30 PM", type:"dinner", place:"Lupa (at the bar)", note:"sit at the pasta bar. order a half-portion of the cacio e pepe + a glass of frascati. a single seat is always there.", addr:"170 Thompson St, Greenwich Village", maps:"https://www.google.com/maps/search/?api=1&query=Lupa+Trattoria"},
+          {time:"9:30 PM", type:"jazz", place:"Smalls Jazz Club", note:"basement jazz, $30 cover. solo seat at the side is unbeatable.", addr:"183 W 10th St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Smalls+Jazz+Club"}
+        ]
+      },
+      {
+        name: "park slope + prospect park",
+        neighborhood: "park slope · prospect heights",
+        train: "Q",
+        summary: "the family-friendly brooklyn day. botanic garden, brooklyn museum, the meadow at prospect park, dinner on vanderbilt. green, slow, and easy.",
+        stops: [
+          {time:"9:00 AM", type:"coffee", place:"Cafe Regular du Nord", note:"tiny french cafe on 11th. cappuccino + croissant. tables outside in good weather.", addr:"158a Berkeley Pl, Park Slope", maps:"https://www.google.com/maps/search/?api=1&query=Cafe+Regular+du+Nord"},
+          {time:"10:30 AM", type:"garden", place:"Brooklyn Botanic Garden", note:"$22. the cherry trees in spring, the rose garden in summer, the conservatory in winter.", addr:"990 Washington Ave, Prospect Heights", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Botanic+Garden"},
+          {time:"12:30 PM", type:"lunch", place:"Agi's Counter", note:"hungarian-jewish lunch counter, michelin bib. the chicken paprikash, the kürtős kalács. 10-min walk from the museum. thurs–sun only.", addr:"818 Franklin Ave, Crown Heights", maps:"https://www.google.com/maps/search/?api=1&query=Agi%27s+Counter+Crown+Heights", resy:"https://resy.com/cities/new-york-ny/venues/agis-counter"},
+          {time:"2:30 PM", type:"museum", place:"Brooklyn Museum", note:"first saturday of the month is free + late. otherwise pay-what-you-wish always. closed mon + tues.", addr:"200 Eastern Pkwy, Prospect Heights", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Museum"},
+          {time:"5:00 PM", type:"park", place:"Prospect Park — the Long Meadow", note:"enter at grand army plaza, walk to the meadow, find a tree, lie down.", addr:"Long Meadow, Prospect Park", maps:"https://www.google.com/maps/search/?api=1&query=Prospect+Park+Long+Meadow"},
+          {time:"7:00 PM", type:"wine", place:"Glady's (or the Vanderbilt strip)", note:"jamaican rum bar on franklin. order the curry goat + a planter's punch.", addr:"788 Franklin Ave, Crown Heights", maps:"https://www.google.com/maps/search/?api=1&query=Glady%27s+Brooklyn"},
+          {time:"8:30 PM", type:"dinner", place:"Gertrude's", note:"new york bistro by the gertie's deli team. the reuben burger, the dill-pickle chicken, the seven-layer cake. book ahead.", addr:"605 Carlton Ave, Prospect Heights", maps:"https://www.google.com/maps/search/?api=1&query=Gertrudes+Brooklyn+Carlton", resy:"https://resy.com/cities/new-york-ny/venues/gertrudes"}
+        ]
+      },
+      {
+        name: "the 24-hour show-off",
+        neighborhood: "LES → midtown → UES",
+        train: "6",
+        summary: "you have one day. someone you love is in town. you want to do everything. start strong, hit the icons in the right order, end somewhere they'll text you about for weeks.",
+        stops: [
+          {time:"9:00 AM", type:"breakfast", place:"Russ & Daughters Cafe", note:"salmon eggs benedict + a latke + a latte. you'll need every calorie.", addr:"127 Orchard St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Russ+%26+Daughters+Cafe", resy:"https://resy.com/cities/new-york-ny/venues/russ-and-daughters-cafe"},
+          {time:"11:00 AM", type:"icon", place:"Brooklyn Bridge walk", note:"manhattan side → brooklyn side. then 6 train back. don't double-walk it.", addr:"Brooklyn Bridge", maps:"https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge"},
+          {time:"1:00 PM", type:"lunch", place:"Katz's Delicatessen", note:"pastrami on rye + a dr brown's. the line moves. don't skip.", addr:"205 E Houston St, LES", maps:"https://www.google.com/maps/search/?api=1&query=Katz%27s+Delicatessen"},
+          {time:"3:00 PM", type:"museum", place:"The Met", note:"3rd floor european paintings + the temple of dendur + the roof if it's open. give it 2 hours minimum. closed wednesdays.", addr:"1000 5th Ave, UES", maps:"https://www.google.com/maps/search/?api=1&query=The+Metropolitan+Museum+of+Art"},
+          {time:"5:30 PM", type:"sunset", place:"Top of the Rock", note:"book the timed ticket in advance. better view than ESB. don't argue.", addr:"30 Rockefeller Plaza", maps:"https://www.google.com/maps/search/?api=1&query=Top+of+the+Rock+NYC"},
+          {time:"7:30 PM", type:"dinner", place:"Frenchette", note:"keith mcnally's tribeca move. duck frites or the steak. natural wine list is the best in the city.", addr:"241 W Broadway, Tribeca", maps:"https://www.google.com/maps/search/?api=1&query=Frenchette+NYC", resy:"https://resy.com/cities/new-york-ny/venues/frenchette"},
+          {time:"10:30 PM", type:"nightcap", place:"Bemelmans Bar at The Carlyle", note:"the closing argument. live piano. martinis. they'll bring this up at thanksgiving in three years.", addr:"35 E 76th St, UES", maps:"https://www.google.com/maps/search/?api=1&query=Bemelmans+Bar"}
         ]
       },
       {
@@ -680,7 +802,7 @@
           {time:"10:00 AM", type:"breakfast", place:"Buvette", note:"tiny french bistro, cramped on purpose. order the tartine + a cappuccino. the window steams up. it's perfect.", addr:"42 Grove St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=Buvette+NYC", resy:"https://resy.com/cities/new-york-ny/venues/buvette-nyc"},
           {time:"12:00 PM", type:"books", place:"The Strand", note:"18 miles of books, three floors, decades old. spend an hour minimum.", addr:"828 Broadway, Union Square", maps:"https://www.google.com/maps/search/?api=1&query=The+Strand+Bookstore"},
           {time:"2:00 PM", type:"lunch", place:"Grand Central Oyster Bar", note:"vaulted tile ceiling, oyster pan roast, a martini. you're underground anyway.", addr:"89 E 42nd St, Grand Central", maps:"https://www.google.com/maps/search/?api=1&query=Grand+Central+Oyster+Bar"},
-          {time:"4:00 PM", type:"museum", place:"The Morgan Library", note:"smaller than the met, more focused. the rotunda + the manuscript room.", addr:"225 Madison Ave, Murray Hill", maps:"https://www.google.com/maps/search/?api=1&query=The+Morgan+Library"},
+          {time:"4:00 PM", type:"museum", place:"The Morgan Library", note:"smaller than the met, more focused. the rotunda + the manuscript room. closed mondays.", addr:"225 Madison Ave, Murray Hill", maps:"https://www.google.com/maps/search/?api=1&query=The+Morgan+Library"},
           {time:"6:30 PM", type:"break", place:"Hotel lobby of your choice", note:"the Beekman atrium, the Greenwich, the Bowery. read for an hour. nobody will bother you.", addr:"various", maps:"https://www.google.com/maps/search/?api=1&query=The+Beekman+Hotel+NYC"},
           {time:"8:00 PM", type:"dinner", place:"I Sodi", note:"the lasagna. tiny candlelit room. you forget about the weather entirely.", addr:"105 Christopher St, West Village", maps:"https://www.google.com/maps/search/?api=1&query=I+Sodi+NYC", resy:"https://resy.com/cities/new-york-ny/venues/i-sodi"},
           {time:"10:30 PM", type:"nightcap", place:"Bemelmans Bar at The Carlyle", note:"live piano. dim lighting. the martini you came uptown for. dress for it.", addr:"35 E 76th St, UES", maps:"https://www.google.com/maps/search/?api=1&query=Bemelmans+Bar"}
