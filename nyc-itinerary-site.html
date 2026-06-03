@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>five boroughs · a built-for-you new york</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Space+Mono:wght@400;700&family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* knicks on black */
+    --bg:#0A0A0A;
+    --bg-deep:#141414;
+    --surface:#1A1A1A;
+    --surface-hi:#222222;
+    --border:#2A2A2A;
+    --border-hi:#3A3A3A;
+
+    --ink:#FFFFFF;
+    --ink-soft:#A8A8A8;
+    --ink-tertiary:#6E6E6E;
+
+    --knicks-blue:#006BB6;
+    --knicks-blue-deep:#1D428A;
+    --knicks-blue-soft:#1B5BA0;
+    --knicks-orange:#F58426;
+    --knicks-orange-soft:#FAA64E;
+
+    --serif:'Fraunces', Georgia, serif;
+    --mono:'Space Mono', ui-monospace, monospace;
+    --script:'Caveat', cursive;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-weight:400}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+  input,textarea{font:inherit;color:inherit;background:none;border:none;outline:none}
+  ::selection{background:var(--knicks-orange);color:var(--bg)}
+
+  /* ───── status strip ───── */
+  .status-bar{
+    background:var(--bg-deep);color:var(--ink);
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+    padding:6px 0;overflow:hidden;border-bottom:1px solid var(--border);
+  }
+  .status-inner{display:flex;align-items:center;gap:18px;padding:0 24px}
+  .status-inner > span{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--knicks-orange);display:inline-block}
+  .dot.green{background:#7BC47F}.dot.red{background:#F03A3E}.dot.blue{background:var(--knicks-blue)}
+  .pulse{animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .fact-rotator{
+    flex:1;min-width:0;position:relative;height:14px;overflow:hidden;
+  }
+  .fact-rotator .fact{
+    position:absolute;inset:0;display:flex;align-items:center;
+    transition:opacity .5s, transform .5s;
+    opacity:0;transform:translateY(8px);color:var(--ink-soft);
+  }
+  .fact-rotator .fact.on{opacity:1;transform:translateY(0)}
+
+  /* ───── marquee ───── */
+  .marquee{
+    background:var(--knicks-blue);color:var(--ink);
+    font-family:var(--serif);font-style:italic;font-weight:400;font-size:22px;
+    padding:10px 0;overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--knicks-blue-deep);
+  }
+  .marquee-track{display:inline-block;animation:scroll 40s linear infinite;font-variation-settings:"SOFT" 100,"WONK" 1}
+  .marquee-track span{margin:0 24px}
+  .marquee-track .glyph{font-style:normal;color:var(--knicks-orange)}
+
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* ───── nav ───── */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 32px;border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:12px;background:var(--bg);
+  }
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand .logo{font-family:var(--serif);font-weight:500;font-size:22px;font-style:italic;font-variation-settings:"SOFT" 80,"WONK" 1;color:var(--ink)}
+  .brand .est{color:var(--ink-soft);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{position:relative;color:var(--ink-soft)}
+  .nav-links a:hover{color:var(--knicks-orange)}
+  .nav-links a::before{content:"●";color:var(--knicks-orange);margin-right:6px;font-size:8px;vertical-align:middle}
+  .nav-cta{padding:6px 14px;border:1px solid var(--knicks-orange);border-radius:30px;background:transparent;color:var(--knicks-orange)}
+  .nav-cta:hover{background:var(--knicks-orange);color:var(--bg)}
+
+  /* ───── hero ───── */
+  .hero{
+    padding:60px 32px 80px;
+    border-bottom:1px solid var(--border);
+    position:relative;overflow:hidden;background:var(--bg);
+  }
+  .hero-grid{display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:end;max-width:1400px;margin:0 auto;position:relative;z-index:2}
+  .hero-eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--knicks-orange);margin-bottom:32px;display:flex;align-items:center;gap:10px;
+  }
+  .hero-eyebrow::after{content:"";flex:1;height:1px;background:var(--border-hi);max-width:200px}
+  h1.hero-title{
+    font-family:var(--serif);
+    font-size:clamp(48px, 7vw, 96px);
+    font-weight:400;line-height:.95;letter-spacing:-.02em;color:var(--ink);
+    font-variation-settings:"SOFT" 100,"WONK" 1;
+  }
+  h1.hero-title em{font-style:italic;color:var(--knicks-orange);font-variation-settings:"SOFT" 100,"WONK" 1}
+  .token{
+    display:inline-block;background:var(--knicks-orange);color:var(--bg);
+    padding:0 12px;margin:0 4px;border-radius:6px;
+    font-family:var(--mono);font-size:.5em;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;
+    vertical-align:middle;
+    border:1px solid var(--knicks-orange);
+    transform:rotate(-2deg);
+    transition:transform .2s;
+  }
+  .token:hover{transform:rotate(2deg) scale(1.05)}
+  .token.alt{background:var(--knicks-blue);color:var(--ink);border-color:var(--knicks-blue);transform:rotate(1.5deg)}
+  .token.alt:hover{transform:rotate(-2deg) scale(1.05)}
+  .hero-sub{
+    margin-top:32px;font-family:var(--mono);font-size:14px;line-height:1.6;
+    max-width:520px;color:var(--ink-soft);
+  }
+  .hero-side{
+    border:1px solid var(--knicks-blue);background:var(--surface);
+    padding:20px;font-family:var(--mono);font-size:11px;line-height:1.7;
+    transform:rotate(1.2deg);position:relative;color:var(--ink);
+  }
+  .hero-side::before{
+    content:"";position:absolute;top:-8px;left:20px;width:60px;height:18px;
+    background:var(--knicks-orange);border-radius:2px;
+    transform:rotate(-3deg);
+  }
+  .hero-side h4{font-family:var(--serif);font-style:italic;font-size:20px;font-weight:500;margin-bottom:10px;font-variation-settings:"SOFT" 100;color:var(--knicks-orange)}
+  .hero-side ul{list-style:none}
+  .hero-side li{padding:2px 0;display:flex;gap:8px;color:var(--ink-soft)}
+  .hero-side li::before{content:"→";color:var(--knicks-orange)}
+
+  /* squiggle */
+  .squiggle{
+    position:absolute;right:12%;top:14%;width:180px;height:60px;opacity:.85;
+    pointer-events:none;z-index:1;
+  }
+
+  /* ───── pigeon ───── */
+  .pigeon{
+    position:absolute;bottom:36px;width:54px;height:36px;
+    z-index:1;pointer-events:none;
+    animation:walk-by 22s linear infinite;
+    animation-delay:3s;
+  }
+  .pigeon-head{transform-origin:42px 16px;animation:bob .55s steps(2,end) infinite}
+  @keyframes walk-by{
+    0%{left:-80px;opacity:0}
+    3%{opacity:1}
+    97%{opacity:1}
+    100%{left:calc(100% + 80px);opacity:0}
+  }
+  @keyframes bob{
+    0%,49.99%{transform:translate(0,0)}
+    50%,100%{transform:translate(-2px,-2px)}
+  }
+
+  /* ───── steam ───── */
+  .steam-wrap{
+    position:absolute;bottom:-12px;left:6%;width:90px;height:130px;
+    pointer-events:none;z-index:1;
+  }
+  .steam-wrap .grate{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:54px;height:7px;background:var(--border-hi);border-radius:2px;
+  }
+  .steam-wrap .grate::before, .steam-wrap .grate::after{
+    content:"";position:absolute;top:1px;width:2px;height:5px;background:var(--bg);
+  }
+  .steam-wrap .grate::before{left:14px}
+  .steam-wrap .grate::after{right:14px}
+  .puff{
+    position:absolute;left:50%;bottom:8px;
+    border-radius:50%;background:var(--ink-soft);opacity:0;
+    animation:rise 7s ease-out infinite;
+  }
+  .puff.p1{width:22px;height:22px;animation-delay:0s;margin-left:-11px}
+  .puff.p2{width:18px;height:18px;animation-delay:2.3s;margin-left:-5px}
+  .puff.p3{width:26px;height:26px;animation-delay:4.6s;margin-left:-15px}
+  @keyframes rise{
+    0%{transform:translateY(0) scale(.3);opacity:0}
+    15%{opacity:.5}
+    100%{transform:translateY(-110px) scale(1.6);opacity:0}
+  }
+
+  /* ───── rotating bagel ───── */
+  .bagel-float{
+    position:absolute;width:78px;height:78px;
+    animation:bagel-spin 22s linear infinite;
+    pointer-events:none;z-index:1;opacity:.95;
+  }
+  @keyframes bagel-spin{
+    0%{transform:rotate(0) translateY(0)}
+    50%{transform:rotate(180deg) translateY(-8px)}
+    100%{transform:rotate(360deg) translateY(0)}
+  }
+
+  /* ───── section base ───── */
+  section.work{
+    border-bottom:1px solid var(--border);
+    padding:64px 32px;
+    position:relative;background:var(--bg);
+  }
+  section.work.alt{background:var(--bg-deep)}
+  .work-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:140px 1fr;gap:48px;align-items:start}
+  .work-num{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding-top:6px}
+  .work-num .big{display:block;font-family:var(--serif);font-style:italic;font-size:64px;color:var(--knicks-orange);line-height:1;margin-bottom:8px;font-variation-settings:"SOFT" 100,"WONK" 1}
+  .work-body h2{
+    font-family:var(--serif);font-size:36px;font-weight:400;line-height:1.05;
+    letter-spacing:-.01em;margin-bottom:8px;color:var(--ink);
+    font-variation-settings:"SOFT" 50,"WONK" 0;
+  }
+  .work-body h2 em{font-style:italic;color:var(--knicks-orange);font-variation-settings:"SOFT" 100,"WONK" 1}
+  .work-body .sub{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-bottom:28px;letter-spacing:.04em}
+
+  /* ───── basics form ───── */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border-hi);background:var(--surface)}
+  .form-row + .form-row{border-top:none}
+  .form-cell{padding:18px 22px;border-right:1px solid var(--border-hi);position:relative}
+  .form-cell:last-child{border-right:none}
+  .form-cell label{
+    display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;
+  }
+  .form-cell label .opt{color:var(--knicks-orange);font-style:italic;text-transform:none;letter-spacing:0;margin-left:6px}
+  .form-cell input{
+    width:100%;font-family:var(--serif);font-size:22px;font-style:italic;
+    background:transparent;font-variation-settings:"SOFT" 80;color:var(--ink);
+  }
+  .form-cell input::placeholder{color:var(--ink-tertiary)}
+
+  .gcal-row{
+    margin-top:18px;display:flex;align-items:center;justify-content:space-between;
+    border:1px solid var(--border-hi);background:var(--surface);padding:14px 22px;
+    gap:18px;flex-wrap:wrap;
+  }
+  .gcal-row .gcal-text{font-family:var(--serif);font-style:italic;font-size:20px;font-variation-settings:"SOFT" 100;color:var(--ink)}
+  .gcal-row .gcal-text small{display:block;font-family:var(--mono);font-style:normal;font-size:11px;color:var(--ink-soft);margin-top:2px;letter-spacing:.04em}
+  .gcal-btn{
+    border:1px solid var(--knicks-orange);background:var(--knicks-orange);padding:8px 18px;
+    color:var(--bg);
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    border-radius:30px;display:flex;gap:8px;align-items:center;
+  }
+  .gcal-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  /* ───── taste signals ───── */
+  .taste-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}
+  .taste-card{
+    border:1px solid var(--border-hi);padding:20px;background:var(--surface);
+    position:relative;min-height:180px;display:flex;flex-direction:column;color:var(--ink);
+  }
+  .taste-card.pri{background:var(--surface-hi);transform:rotate(-.6deg);border-color:var(--knicks-orange)}
+  .taste-card.alt{background:var(--surface);transform:rotate(.4deg)}
+  .taste-card.handle{background:var(--surface);min-height:160px}
+  .taste-card.handle .input-strip{margin-top:8px;border-top:none;padding-top:0}
+  .taste-card.handle .input-strip input{font-family:var(--serif);font-style:italic;font-size:20px;font-variation-settings:"SOFT" 80}
+  .taste-card .badge{
+    position:absolute;top:-10px;right:14px;background:var(--ink);color:var(--bg);
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:30px;
+  }
+  .taste-card .badge.warm{background:var(--knicks-orange);color:var(--bg)}
+  .taste-card .badge.cool{background:var(--knicks-blue);color:var(--ink)}
+  .taste-card h3{font-family:var(--serif);font-size:22px;font-style:italic;font-weight:500;margin-bottom:6px;font-variation-settings:"SOFT" 100;color:var(--ink)}
+  .taste-card p{font-family:var(--mono);font-size:11px;color:var(--ink-soft);line-height:1.55;margin-bottom:14px}
+  .taste-card .input-strip{
+    margin-top:auto;border-top:1px dashed var(--border-hi);padding-top:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .taste-card .input-strip span{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+  .taste-card .input-strip input{flex:1;font-family:var(--mono);font-size:12px}
+  .taste-card .ig-dot{
+    width:18px;height:18px;border-radius:5px;
+    background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);
+    display:inline-block;
+  }
+  .taste-card .tt-dot{
+    width:18px;height:18px;border-radius:5px;background:var(--bg);
+    color:#FF0050;font-family:var(--mono);font-size:13px;font-weight:700;
+    display:inline-flex;align-items:center;justify-content:center;line-height:1;
+    border:1px solid var(--border-hi);
+  }
+  .or-divider{
+    display:flex;align-items:center;gap:14px;margin:32px 0 18px;
+    font-family:var(--serif);font-style:italic;font-size:24px;color:var(--ink-soft);
+    font-variation-settings:"SOFT" 100,"WONK" 1;
+  }
+  .or-divider::before, .or-divider::after{content:"";flex:1;height:1px;background:var(--border-hi)}
+  .vibe-text{
+    width:100%;font-family:var(--serif);font-style:italic;font-size:22px;
+    line-height:1.4;background:transparent;border:none;outline:none;resize:none;
+    font-variation-settings:"SOFT" 80;color:var(--bg);
+  }
+  .vibe-text::placeholder{color:rgba(10,10,10,.5)}
+
+  .quiz-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+  .quiz-tile{
+    aspect-ratio:1;border:1px solid var(--border-hi);position:relative;overflow:hidden;
+    display:flex;align-items:flex-end;padding:6px;
+    font-family:var(--mono);font-size:9px;color:var(--ink);font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;line-height:1.1;
+  }
+  .q1{background:linear-gradient(135deg,#D87B3F 0%,#7B3E1A 100%)}
+  .q2{background:linear-gradient(135deg,#5D7B43 0%,#2C4220 100%)}
+  .q3{background:linear-gradient(135deg,#8B3F5A 0%,#3F1F33 100%)}
+  .q4{background:linear-gradient(135deg,#3F6B8B 0%,#1F3554 100%)}
+  .q5{background:linear-gradient(135deg,#C28F2D 0%,#7A5215 100%)}
+  .q6{background:linear-gradient(135deg,#5A4E7B 0%,#2D2647 100%)}
+
+  /* ───── maps connect callout ───── */
+  .maps-callout{
+    border:1px solid var(--knicks-blue);background:var(--surface);
+    padding:18px 22px;margin-top:18px;
+    display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap;
+    position:relative;overflow:hidden;
+  }
+  .maps-callout::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--knicks-blue);
+  }
+  .maps-callout .copy{font-family:var(--serif);font-style:italic;font-size:20px;font-variation-settings:"SOFT" 100;padding-left:8px}
+  .maps-callout .copy small{display:block;font-family:var(--mono);font-style:normal;font-size:11px;color:var(--ink-soft);margin-top:4px;letter-spacing:.04em}
+  .maps-callout .copy em{color:var(--knicks-orange);font-style:italic}
+  .maps-btn{
+    border:1px solid var(--knicks-blue);background:var(--knicks-blue);padding:9px 18px;color:var(--ink);
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    border-radius:30px;
+  }
+  .maps-btn:hover{background:transparent;color:var(--knicks-blue)}
+
+  /* ───── company + mood ───── */
+  .chip-section{margin-bottom:24px}
+  .chip-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .chip-label .opt{color:var(--knicks-orange);font-style:italic;text-transform:none;letter-spacing:0}
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{
+    padding:8px 16px;border:1px solid var(--border-hi);border-radius:30px;
+    background:var(--surface);color:var(--ink);
+    font-family:var(--serif);font-style:italic;font-size:17px;
+    font-variation-settings:"SOFT" 80;cursor:pointer;
+    transition:transform .15s, background .15s, border-color .15s;
+  }
+  .chip:hover{transform:translateY(-1px) rotate(-1deg);border-color:var(--knicks-orange)}
+  .chip.on{background:var(--knicks-blue);color:var(--ink);transform:rotate(-1.5deg);font-weight:500;border-color:var(--knicks-blue)}
+  .chip.on:hover{transform:rotate(1deg) translateY(-1px)}
+  .chip.on.alt{background:var(--knicks-orange);color:var(--bg);border-color:var(--knicks-orange)}
+
+  .kids-strip{
+    background:var(--surface);border:1px dashed var(--knicks-blue);
+    padding:14px 18px;margin-top:-12px;margin-bottom:24px;
+    transform:rotate(-.3deg);
+  }
+
+  .energy-card{
+    margin-top:8px;border:1px solid var(--border-hi);background:var(--surface);
+    padding:20px 24px;display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;
+  }
+  .energy-label p{font-family:var(--serif);font-style:italic;font-size:22px;font-variation-settings:"SOFT" 100;color:var(--ink)}
+  .energy-label small{display:block;font-family:var(--mono);font-style:normal;font-size:10px;color:var(--ink-soft);letter-spacing:.04em;margin-top:4px}
+  .energy-anchors{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+
+  /* ───── sliders ───── */
+  .slider-card{
+    border:1px solid var(--border-hi);background:var(--surface);padding:28px 32px;
+    position:relative;
+  }
+  .slider-card + .slider-card{margin-top:16px}
+  .slider-anchor-row{display:flex;justify-content:space-between;margin-bottom:14px;align-items:end}
+  .slider-anchor{font-family:var(--serif);font-style:italic;font-size:24px;font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink)}
+  .slider-anchor em{color:var(--knicks-orange);font-style:italic}
+  .slider-anchor small{display:block;font-family:var(--mono);font-style:normal;font-size:10px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .slider-anchor.right{text-align:right}
+  .vibe-slider{
+    -webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--border-hi);outline:none;
+    margin:14px 0 10px;
+  }
+  .vibe-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+    background:var(--knicks-orange);border:2px solid var(--ink);cursor:grab;
+    box-shadow:0 0 0 1px var(--knicks-orange);
+  }
+  .vibe-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--knicks-orange);border:2px solid var(--ink);cursor:grab}
+  .vibe-slider.blue::-webkit-slider-thumb{background:var(--knicks-blue);box-shadow:0 0 0 1px var(--knicks-blue)}
+  .vibe-slider.blue::-moz-range-thumb{background:var(--knicks-blue)}
+  .tick-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-soft);letter-spacing:.04em;margin-bottom:24px}
+  .tick-row span{position:relative;text-align:center}
+  .tick-row span::before{content:"|";color:var(--border-hi);display:block;margin-bottom:4px}
+  .preview-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-top:20px;border-top:1px solid var(--border-hi)}
+  .preview-pair > div p:first-child{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+  .preview-pair > div p:last-child{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.4;font-variation-settings:"SOFT" 80;color:var(--ink)}
+
+  /* ───── curated days ───── */
+  .day-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--border-hi)}
+  .day{
+    padding:24px 26px;border-right:1px solid var(--border-hi);border-bottom:1px solid var(--border-hi);
+    background:var(--surface);position:relative;
+    display:flex;flex-direction:column;gap:8px;color:var(--ink);
+  }
+  .day:nth-child(2n){border-right:none}
+  .day:nth-last-child(-n+2){border-bottom:none}
+  .day:hover{background:var(--surface-hi)}
+  .day-meta{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .line-dot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:11px;color:white}
+  .line-L{background:#A7A9AC;color:#1F1A14}
+  .line-F{background:#FF6319}
+  .line-G{background:#6CBE45}
+  .line-J{background:#996633}
+  .line-N{background:#FCCC0A;color:#1F1A14}
+  .line-1,.line-2,.line-3{background:#EE352E}
+  .line-7{background:#B933AD}
+  .line-4,.line-5,.line-6{background:#00933C}
+  .day h3{font-family:var(--serif);font-size:26px;font-weight:400;letter-spacing:-.01em;line-height:1.1;font-variation-settings:"SOFT" 60;color:var(--ink)}
+  .day h3 em{font-style:italic;color:var(--knicks-orange);font-variation-settings:"SOFT" 100,"WONK" 1}
+  .day p{font-family:var(--mono);font-size:12px;line-height:1.55;color:var(--ink-soft)}
+  .day .stops{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink);line-height:1.45;font-variation-settings:"SOFT" 100}
+  .day .stops .arrow{color:var(--knicks-orange);font-style:normal;margin:0 4px}
+  .day .price-pill{
+    align-self:flex-start;margin-top:auto;font-family:var(--mono);font-size:10px;
+    letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--knicks-orange);
+    padding:3px 10px;border-radius:30px;background:transparent;color:var(--knicks-orange);
+  }
+  .placeholder-note{
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+    background:var(--surface);border:1px dashed var(--knicks-orange);
+    padding:10px 14px;margin-bottom:18px;letter-spacing:.04em;line-height:1.5;
+  }
+  .placeholder-note em{color:var(--knicks-orange);font-style:italic;font-family:var(--serif);font-size:14px;font-variation-settings:"SOFT" 100}
+  .day .add-line{
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);line-height:1.55;
+    border-top:1px dashed var(--border-hi);padding-top:10px;margin-top:6px;
+  }
+  .day .add-line em{font-family:var(--serif);font-style:italic;color:var(--knicks-blue);font-size:13px;font-variation-settings:"SOFT" 100;margin-right:4px}
+  .day .add-line .place{color:var(--ink);font-family:var(--serif);font-style:italic;font-size:13px;font-variation-settings:"SOFT" 100}
+
+  /* ───── CTA ───── */
+  .cta-section{
+    background:var(--knicks-orange);color:var(--bg);padding:80px 32px;
+    border-bottom:1px solid var(--knicks-orange);position:relative;overflow:hidden;
+  }
+  .cta-section .stamp{
+    position:absolute;right:-40px;top:30px;width:240px;height:240px;
+    border:1px solid var(--bg);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(-12deg);opacity:.85;
+  }
+  .cta-section .stamp::before{
+    content:"";position:absolute;inset:14px;border:1px dashed var(--bg);border-radius:50%;
+  }
+  .cta-section .stamp span{
+    font-family:var(--serif);font-style:italic;color:var(--bg);
+    font-size:30px;text-align:center;line-height:.95;font-variation-settings:"SOFT" 100,"WONK" 1;
+  }
+  .cta-inner{max-width:1400px;margin:0 auto;position:relative;z-index:2}
+  .cta-section h2{
+    font-family:var(--serif);font-size:clamp(40px, 5vw, 64px);font-weight:400;
+    line-height:.98;letter-spacing:-.015em;color:var(--bg);
+    font-variation-settings:"SOFT" 100,"WONK" 1;max-width:780px;
+  }
+  .cta-section h2 em{color:var(--knicks-blue);font-style:italic}
+  .cta-section .sub{font-family:var(--mono);font-size:13px;color:rgba(10,10,10,.75);margin-top:18px;max-width:620px;line-height:1.6}
+  .tier-row{
+    margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    max-width:900px;
+  }
+  .tier{
+    border:1.5px solid var(--bg);background:rgba(10,10,10,.06);
+    padding:22px 24px;display:flex;flex-direction:column;gap:8px;
+  }
+  .tier.paid{background:var(--bg);color:var(--knicks-orange);position:relative}
+  .tier-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(10,10,10,.6)}
+  .tier.paid .tier-label{color:rgba(245,132,38,.7)}
+  .tier-price{font-family:var(--serif);font-size:36px;font-weight:400;font-style:italic;line-height:1;font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--bg);margin-bottom:4px}
+  .tier.paid .tier-price{color:var(--knicks-orange)}
+  .tier-tagline{font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(10,10,10,.85);font-variation-settings:"SOFT" 80;margin-bottom:6px}
+  .tier.paid .tier-tagline{color:rgba(245,132,38,.85)}
+  .tier ul{list-style:none;font-family:var(--mono);font-size:11px;line-height:1.7;color:rgba(10,10,10,.85)}
+  .tier.paid ul{color:rgba(255,255,255,.8)}
+  .tier li{padding:2px 0;display:flex;gap:8px}
+  .tier li::before{content:"·";color:var(--bg);font-weight:700}
+  .tier.paid li::before{content:"●";color:var(--knicks-orange);font-size:6px;line-height:1;margin-top:7px}
+  .tier-cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:32px}
+  .build-btn{
+    background:var(--bg);color:var(--knicks-orange);
+    font-family:var(--serif);font-size:22px;font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1;
+    padding:18px 32px;border-radius:60px;border:2px solid var(--bg);
+    display:flex;align-items:center;gap:14px;white-space:nowrap;font-weight:500;
+    transition:all .2s;
+  }
+  .build-btn:hover{background:var(--knicks-blue);color:var(--ink);border-color:var(--knicks-blue);transform:rotate(-1deg) scale(1.03)}
+  .build-btn.preview{background:transparent;color:var(--bg);border-color:var(--bg);font-size:16px;padding:14px 22px}
+  .build-btn.preview:hover{background:var(--bg);color:var(--knicks-orange);border-color:var(--bg)}
+  .build-btn .arrow{font-family:var(--serif);font-style:normal;font-size:26px}
+  .fare-line{font-family:var(--mono);font-size:11px;color:rgba(10,10,10,.7);letter-spacing:.04em;line-height:1.5}
+  .fare-line em{color:var(--bg);font-style:italic;font-family:var(--serif);font-size:14px;font-variation-settings:"SOFT" 100}
+
+  /* ───── footer ───── */
+  footer{
+    padding:48px 32px;background:var(--bg);
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+    border-top:1px solid var(--border);position:relative;overflow:hidden;
+  }
+  .footer-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;position:relative;z-index:2}
+  footer h5{font-family:var(--serif);font-size:20px;font-style:italic;font-weight:500;color:var(--knicks-orange);margin-bottom:12px;font-variation-settings:"SOFT" 100,"WONK" 1}
+  footer p{line-height:1.7;margin-bottom:8px;color:var(--ink-soft)}
+  footer a{display:block;padding:3px 0;color:var(--ink-soft)}
+  footer a:hover{color:var(--knicks-orange)}
+  footer a::before{content:"⏤ ";color:var(--border-hi)}
+  .footer-bottom{
+    max-width:1400px;margin:48px auto 0;padding-top:24px;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    position:relative;z-index:2;color:var(--ink-tertiary);
+  }
+  .footer-bottom .glyph{font-family:var(--serif);font-style:italic;color:var(--knicks-orange);font-size:16px}
+
+  /* ───── quiz overlay ───── */
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,10,10,.92);z-index:100;
+    display:none;align-items:center;justify-content:center;padding:24px;
+    backdrop-filter:blur(8px);
+  }
+  .overlay.open{display:flex}
+  .quiz-card{
+    background:var(--surface);border:1px solid var(--border-hi);
+    width:100%;max-width:520px;padding:0;position:relative;
+    display:flex;flex-direction:column;animation:cardIn .3s ease-out;
+  }
+  @keyframes cardIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .quiz-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 22px;border-bottom:1px solid var(--border-hi);
+  }
+  .quiz-head .qcount{font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase}
+  .quiz-head .qclose{
+    font-family:var(--mono);font-size:18px;color:var(--ink-soft);
+    width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+    border-radius:50%;cursor:pointer;
+  }
+  .quiz-head .qclose:hover{color:var(--ink);background:var(--surface-hi)}
+  .qprogress{height:2px;background:var(--border-hi);width:100%;position:relative}
+  .qprogress-bar{height:100%;background:var(--knicks-orange);width:0;transition:width .3s}
+  .quiz-img{
+    aspect-ratio:4/3;background:linear-gradient(135deg,#D87B3F,#7B3E1A);
+    background-size:cover;background-position:center;
+    position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:20px;
+  }
+  .quiz-img.alt-1{background:linear-gradient(135deg,#5D7B43,#2C4220)}
+  .quiz-img.alt-2{background:linear-gradient(135deg,#8B3F5A,#3F1F33)}
+  .quiz-img.alt-3{background:linear-gradient(135deg,#3F6B8B,#1F3554)}
+  .quiz-img.alt-4{background:linear-gradient(135deg,#C28F2D,#7A5215)}
+  .quiz-img.alt-5{background:linear-gradient(135deg,#5A4E7B,#2D2647)}
+  .quiz-img.has-photo{background-size:cover;background-position:center}
+  .quiz-img.has-photo::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(10,10,10,.85) 0%,rgba(10,10,10,.2) 55%,rgba(10,10,10,0) 100%);
+    pointer-events:none;
+  }
+  .quiz-img .ph{
+    font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em;
+    text-transform:uppercase;position:absolute;top:14px;right:14px;z-index:2;
+  }
+  .quiz-img .qname{
+    font-family:var(--serif);font-style:italic;font-size:38px;color:var(--ink);
+    font-variation-settings:"SOFT" 100,"WONK" 1;line-height:1.05;font-weight:500;
+    position:relative;z-index:2;text-shadow:0 1px 12px rgba(0,0,0,.4);
+  }
+  .quiz-body{padding:22px}
+  .quiz-body .qdesc{font-family:var(--mono);font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:6px}
+  .quiz-body .qfrom{font-family:var(--mono);font-size:10px;color:var(--knicks-orange);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+  .quiz-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .qbtn{
+    padding:16px;border:1px solid var(--border-hi);background:var(--bg);
+    font-family:var(--serif);font-style:italic;font-size:20px;font-variation-settings:"SOFT" 100;
+    cursor:pointer;color:var(--ink);transition:all .15s;
+  }
+  .qbtn:hover{transform:translateY(-1px)}
+  .qbtn.no:hover{border-color:#F03A3E;color:#F03A3E}
+  .qbtn.yes{background:var(--knicks-orange);color:var(--bg);border-color:var(--knicks-orange);font-weight:500}
+  .qbtn.yes:hover{background:var(--knicks-blue);color:var(--ink);border-color:var(--knicks-blue)}
+  .quiz-skip{
+    text-align:center;padding:10px 0 16px;font-family:var(--mono);font-size:11px;
+    color:var(--ink-soft);letter-spacing:.06em;cursor:pointer;
+  }
+  .quiz-skip:hover{color:var(--ink)}
+
+  /* ───── results screen ───── */
+  .quiz-results{padding:36px 28px;text-align:left}
+  .quiz-results .badge{font-family:var(--mono);font-size:10px;color:var(--knicks-orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+  .quiz-results h3{
+    font-family:var(--serif);font-style:italic;font-size:42px;line-height:1.05;
+    font-variation-settings:"SOFT" 100,"WONK" 1;margin-bottom:14px;color:var(--ink);font-weight:500;
+  }
+  .quiz-results h3 em{color:var(--knicks-orange)}
+  .quiz-results .readout{font-family:var(--mono);font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:28px}
+  .quiz-results .build{
+    width:100%;padding:18px;background:var(--knicks-orange);color:var(--bg);
+    font-family:var(--serif);font-style:italic;font-size:22px;font-variation-settings:"SOFT" 100,"WONK" 1;
+    border:2px solid var(--knicks-orange);font-weight:500;
+  }
+  .quiz-results .build:hover{background:var(--knicks-blue);color:var(--ink);border-color:var(--knicks-blue)}
+
+  /* ───── paywall ───── */
+  .paywall{padding:28px;max-width:560px;width:100%}
+  .paywall .small{font-family:var(--mono);font-size:10px;color:var(--knicks-orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .paywall h3{font-family:var(--serif);font-style:italic;font-size:38px;line-height:1.1;font-variation-settings:"SOFT" 100,"WONK" 1;margin-bottom:18px;color:var(--ink);font-weight:500}
+  .paywall h3 em{color:var(--knicks-orange)}
+  .paywall .tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+  .paywall .tier{padding:18px;border:1px solid var(--border-hi);background:var(--bg)}
+  .paywall .tier.full{background:var(--knicks-orange);color:var(--bg);border-color:var(--knicks-orange)}
+  .paywall .tier .tlabel{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+  .paywall .tier.full .tlabel{color:rgba(10,10,10,.65)}
+  .paywall .tier .tprice{font-family:var(--serif);font-style:italic;font-size:36px;line-height:1;margin-bottom:10px;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:500}
+  .paywall .tier ul{list-style:none;font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--ink-soft)}
+  .paywall .tier.full ul{color:rgba(10,10,10,.85)}
+  .paywall .tier li{padding:3px 0;display:flex;gap:6px}
+  .paywall .tier li::before{content:"·"}
+  .paywall .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .paywall .actions .pbtn{padding:14px;font-family:var(--serif);font-style:italic;font-size:17px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-variation-settings:"SOFT" 100}
+  .paywall .actions .pbtn:hover{background:var(--surface-hi)}
+  .paywall .actions .pbtn.go{background:var(--knicks-orange);color:var(--bg);border-color:var(--knicks-orange);font-weight:500}
+  .paywall .actions .pbtn.go:hover{background:var(--knicks-blue);color:var(--ink);border-color:var(--knicks-blue)}
+  .paywall .fineprint{margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--ink-soft);letter-spacing:.04em;text-align:center;line-height:1.5}
+
+  /* ───── responsive ───── */
+  @media (max-width: 900px){
+    .hero-grid{grid-template-columns:1fr}
+    .work-grid{grid-template-columns:1fr;gap:20px}
+    .work-num .big{font-size:48px}
+    .form-row{grid-template-columns:1fr}
+    .form-cell{border-right:none;border-bottom:1px solid var(--border-hi)}
+    .form-cell:last-child{border-bottom:none}
+    .taste-grid{grid-template-columns:1fr}
+    .day-grid{grid-template-columns:1fr}
+    .day{border-right:none}
+    .quiz-grid{grid-template-columns:repeat(3,1fr)}
+    .cta-inner{grid-template-columns:1fr}
+    .cta-section .stamp{display:none}
+    .footer-grid{grid-template-columns:1fr 1fr}
+    .energy-card{grid-template-columns:1fr;gap:16px}
+    .pigeon{display:none}
+    .steam-wrap{display:none}
+    .bagel-float{display:none}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ───── status strip ───── -->
+  <div class="status-bar">
+    <div class="status-inner">
+      <span><span class="dot green pulse"></span>currently in nyc</span>
+      <span>·</span>
+      <div class="fact-rotator" id="facts">
+        <div class="fact on">knicks · 47-29 · 3rd in east · we're feeling it</div>
+        <div class="fact">L train · good service · F train · minor delays uptown · 78°f, clear</div>
+        <div class="fact">nearest bagel · 0.3mi · nearest pigeon · much closer · subway temp · 84°f</div>
+        <div class="fact">tonight ESB lit · amber + white · construction scaffolding · 23 blocks · we cope</div>
+        <div class="fact">current bodega cat · black · asleep · unbothered · active food carts · 2,847</div>
+        <div class="fact">don't block the box · we said what we said · also: walk on the right</div>
+        <div class="fact">last week's parade · 3 · this week's parade · TBD · always assume a parade</div>
+      </div>
+      <span style="margin-left:auto;color:var(--knicks-orange)" id="nyc-clock">— · made in chinatown ✺</span>
+    </div>
+  </div>
+
+  <!-- ───── marquee ───── -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>five boroughs <span class="glyph">●</span></span>
+      <span>one itinerary <span class="glyph">●</span></span>
+      <span>built around <em>you</em> <span class="glyph">●</span></span>
+      <span>no two trips alike <span class="glyph">●</span></span>
+      <span>five boroughs <span class="glyph">●</span></span>
+      <span>one itinerary <span class="glyph">●</span></span>
+      <span>built around <em>you</em> <span class="glyph">●</span></span>
+      <span>no two trips alike <span class="glyph">●</span></span>
+    </div>
+  </div>
+
+  <!-- ───── nav ───── -->
+  <nav>
+    <div class="brand">
+      <div class="logo">five boroughs</div>
+      <div class="est">est. 2026 · by anna, a native new yorker</div>
+    </div>
+    <div class="nav-links">
+      <a href="#">how it works</a>
+      <a href="#">sample trips</a>
+      <a href="mailto:annalisian@gmail.com">say hi</a>
+    </div>
+    <a href="#cta" class="nav-cta">start a trip →</a>
+  </nav>
+
+  <!-- ───── hero ───── -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">a personalized itinerary engine · in beta</div>
+        <h1 class="hero-title">
+          your <em>new york,</em><br/>
+          planned <span class="token">like a local</span><br/>
+          built around <span class="token alt">what you actually like.</span>
+        </h1>
+        <p class="hero-sub">
+          tell us when you're here, who you're with, and what kind of trip this is.
+          we'll plan four days you'll actually want to live through.
+          no account. no app. ready in about a minute.
+        </p>
+      </div>
+      <aside class="hero-side">
+        <h4>this week, in town</h4>
+        <ul>
+          <li>governors ball · randall's island</li>
+          <li>museum mile festival · 5th ave</li>
+          <li>shakespeare in the park · delacorte</li>
+          <li>open streets · vanderbilt, prospect</li>
+          <li>summer streets · park ave</li>
+        </ul>
+        <p style="margin-top:14px;font-size:10px;color:var(--ink-soft);font-style:italic">we factor these in automatically.</p>
+      </aside>
+    </div>
+
+    <!-- squiggle -->
+    <svg class="squiggle" viewBox="0 0 200 60" fill="none" stroke="#F58426" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M5 30 Q 25 5, 45 30 T 85 30 T 125 30 T 165 30 T 195 30" />
+    </svg>
+
+    <!-- pigeon walking across the hero -->
+    <svg class="pigeon" viewBox="0 0 54 36" aria-hidden="true">
+      <g fill="#888888">
+        <ellipse cx="26" cy="22" rx="14" ry="7"/>
+        <rect x="22" y="28" width="1.6" height="6" fill="#F58426"/>
+        <rect x="28" y="28" width="1.6" height="6" fill="#F58426"/>
+        <path d="M 12 22 L 4 19 L 4 21 L 14 26 Z" fill="#5A5A5A"/>
+        <g class="pigeon-head">
+          <circle cx="42" cy="16" r="6"/>
+          <path d="M 48 16 L 53 15 L 53 17 Z" fill="#F58426"/>
+          <circle cx="44" cy="14.5" r="1" fill="#FFFFFF"/>
+          <circle cx="44" cy="14.5" r=".5" fill="#0A0A0A"/>
+        </g>
+      </g>
+    </svg>
+  </section>
+
+  <!-- ───── 01 basics ───── -->
+  <section class="work">
+    <div class="work-grid">
+      <div class="work-num">
+        <span class="big">01</span>
+        the basics
+      </div>
+      <div class="work-body">
+        <h2>tell us <em>when</em> you're here,<br/>and <em>where</em> you're sleeping.</h2>
+        <p class="sub">⏤ everything below is editable later. we promise not to email you.</p>
+
+        <div class="form-row">
+          <div class="form-cell">
+            <label>arrival</label>
+            <input type="text" placeholder="fri, jun 13" value="fri, jun 13" />
+          </div>
+          <div class="form-cell">
+            <label>departure</label>
+            <input type="text" placeholder="tue, jun 17" value="tue, jun 17" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-cell">
+            <label>flight in <span class="opt">optional</span></label>
+            <input type="text" placeholder="DL 412 from LAX" value="DL 412 — JFK 4:32pm" />
+          </div>
+          <div class="form-cell">
+            <label>where you're staying</label>
+            <input type="text" placeholder="hotel, airbnb, friend's couch" value="ace hotel, nomad" />
+          </div>
+        </div>
+
+        <div class="gcal-row">
+          <div class="gcal-text">
+            sync your google calendar
+            <small>so we route around dinners, weddings, work calls, and blackout days</small>
+          </div>
+          <button class="gcal-btn">connect ↗</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── 02 who's coming ───── -->
+  <section class="work alt" style="position:relative">
+    <div class="work-grid">
+      <div class="work-num">
+        <span class="big">02</span>
+        the company
+      </div>
+      <div class="work-body">
+        <h2>who's coming, <em>really?</em><br/>and what kind of trip is this?</h2>
+        <p class="sub">⏤ a solo reading day looks nothing like a date weekend. tell us which one this is.</p>
+
+        <div class="chip-section">
+          <p class="chip-label">who's with you</p>
+          <div class="chip-row" data-group="party">
+            <button class="chip" data-val="solo">solo</button>
+            <button class="chip on" data-val="partner">with my person</button>
+            <button class="chip" data-val="friends">with friends</button>
+            <button class="chip" data-val="family">family · no kids</button>
+            <button class="chip" data-val="kids">family · with kids</button>
+          </div>
+        </div>
+
+        <div class="kids-strip" id="kids-strip" style="display:none">
+          <p class="chip-label">the small humans <span class="opt">tap all that apply</span></p>
+          <div class="chip-row" data-group="kids" data-multi="5">
+            <button class="chip" data-val="0-2">under 2</button>
+            <button class="chip" data-val="3-5">3–5</button>
+            <button class="chip" data-val="6-10">6–10</button>
+            <button class="chip" data-val="11-14">11–14</button>
+            <button class="chip" data-val="teens">teens</button>
+          </div>
+        </div>
+
+        <div class="chip-section">
+          <p class="chip-label">the mood you're after <span class="opt">pick up to three</span></p>
+          <div class="chip-row" data-group="mood" data-multi="3">
+            <button class="chip on alt" data-val="eat">eat everything</button>
+            <button class="chip on" data-val="date">date-night energy</button>
+            <button class="chip" data-val="slow">slow + analog</button>
+            <button class="chip" data-val="wonder">first-time wonder</button>
+            <button class="chip" data-val="museums">museums + galleries</button>
+            <button class="chip" data-val="outside">outdoors mode</button>
+            <button class="chip" data-val="nights">big nights out</button>
+            <button class="chip" data-val="bookstore">find me a bookstore</button>
+            <button class="chip" data-val="shop">shopping with intent</button>
+            <button class="chip" data-val="music">live music, every night</button>
+          </div>
+        </div>
+
+        <div class="energy-card">
+          <div class="energy-label">
+            <p>energy level</p>
+            <small>how much do you want packed in per day?</small>
+          </div>
+          <div>
+            <div class="energy-anchors">
+              <span>lots of nothing</span>
+              <span>everything, all of it</span>
+            </div>
+            <input type="range" min="0" max="100" value="55" class="vibe-slider blue" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- steam from a manhole, bottom-left -->
+    <div class="steam-wrap">
+      <div class="puff p1"></div>
+      <div class="puff p2"></div>
+      <div class="puff p3"></div>
+      <div class="grate"></div>
+    </div>
+  </section>
+
+  <!-- ───── 03 taste signals ───── -->
+  <section class="work">
+    <div class="work-grid">
+      <div class="work-num">
+        <span class="big">03</span>
+        what you like
+      </div>
+      <div class="work-body">
+        <h2>pick any. <em>skip any.</em><br/>more signal makes sharper picks.</h2>
+        <p class="sub">⏤ a maps export from your own saved places is the strongest signal we can use.</p>
+
+        <div class="maps-callout" style="border-color:#7BC47F">
+          <div class="copy" style="padding-left:8px">
+            <span style="color:#7BC47F">✓</span> your <em>google maps</em> are connected
+            <small>21 nyc lists imported · 412 places parsed · favorites, want-to-go, neighborhood, date night, breakfast, cafes, bars, cheap eats, flushing eats, jackson heights, BoCoCa, BK heights — all in</small>
+          </div>
+          <button class="maps-btn" style="background:transparent;border-color:#7BC47F;color:#7BC47F">manage ↗</button>
+        </div>
+        <style>.maps-callout::before{background:#7BC47F !important}</style>
+
+        <div class="taste-grid" style="margin-top:24px">
+          <div class="taste-card pri" onclick="openQuiz()" style="cursor:pointer">
+            <span class="badge warm">start here</span>
+            <h3>60-second taste quiz</h3>
+            <p>swipe yes/no on 12 nyc places. tap to start.</p>
+            <div class="quiz-grid">
+              <div class="quiz-tile q1">bagel slice</div>
+              <div class="quiz-tile q2">prospect pk</div>
+              <div class="quiz-tile q3">dimes sq.</div>
+              <div class="quiz-tile q4">moma roof</div>
+              <div class="quiz-tile q5">pretzel cart</div>
+              <div class="quiz-tile q6">jazz cellar</div>
+            </div>
+          </div>
+
+          <div class="taste-card">
+            <span class="badge">optional</span>
+            <h3>pinterest board</h3>
+            <p>got a "new york" board? a "trip" board? a vague "vibes" board with two pretzel pins? paste it.</p>
+            <div class="input-strip">
+              <span>●</span>
+              <input type="text" placeholder="pinterest.com/you/nyc-2026" />
+            </div>
+          </div>
+
+          <div class="taste-card alt">
+            <span class="badge">optional</span>
+            <h3>are.na or notion</h3>
+            <p>got a research channel or a personal nyc notion db you've been hoarding? drop the link.</p>
+            <div class="input-strip">
+              <span>●</span>
+              <input type="text" placeholder="are.na/you/nyc · or a notion link" />
+            </div>
+          </div>
+        </div>
+
+        <div class="or-divider">or, hand us a handle</div>
+
+        <div class="taste-grid">
+          <div class="taste-card handle">
+            <span class="badge cool">light touch</span>
+            <h3>instagram handle</h3>
+            <p>we'll glance at your public bio and a couple recent posts to get a vibe read. nothing stored.</p>
+            <div class="input-strip">
+              <span class="ig-dot"></span>
+              <input type="text" placeholder="@yourname" />
+            </div>
+          </div>
+
+          <div class="taste-card handle">
+            <span class="badge cool">light touch</span>
+            <h3>tiktok handle</h3>
+            <p>peek at your public profile — bio + recent video hashtags and sounds. helps us read your taste.</p>
+            <div class="input-strip">
+              <span class="tt-dot">t</span>
+              <input type="text" placeholder="@yourname" />
+            </div>
+          </div>
+
+          <div class="taste-card handle" style="background:var(--knicks-orange);transform:rotate(.5deg);border-color:var(--knicks-orange)">
+            <span class="badge" style="background:var(--bg);color:var(--knicks-orange)">underrated</span>
+            <h3 style="color:var(--bg)">describe yourself</h3>
+            <p style="color:rgba(10,10,10,.75)">one sentence. zero auth. weirdly the highest-signal option in the whole flow.</p>
+            <textarea class="vibe-text" rows="3" placeholder="greenpoint pasta person, matcha enthusiast, reads on stoops, can't pass a vintage store..."></textarea>
+          </div>
+        </div>
+
+        <p style="font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-style:italic;margin-top:12px;line-height:1.6">
+          ↗ what we actually see from a handle: bio, display name, profile pic, and recent public posts. nothing leaves our server. nothing is stored after your trip is built.
+          private accounts: we'll just use the bio.
+        </p>
+      </div>
+    </div>
+
+    <!-- floating bagel decoration -->
+    <svg class="bagel-float" style="right:6%;top:24%" viewBox="0 0 80 80" aria-hidden="true">
+      <circle cx="40" cy="40" r="32" fill="#C28A4C" stroke="#F58426" stroke-width="1.5"/>
+      <circle cx="40" cy="40" r="12" fill="#0A0A0A" stroke="#F58426" stroke-width="1.5"/>
+      <circle cx="22" cy="28" r="1.5" fill="#1F1A14"/>
+      <circle cx="58" cy="32" r="1.5" fill="#1F1A14"/>
+      <circle cx="50" cy="56" r="1.5" fill="#1F1A14"/>
+      <circle cx="28" cy="54" r="1.5" fill="#1F1A14"/>
+      <circle cx="62" cy="48" r="1.5" fill="#1F1A14"/>
+      <circle cx="20" cy="42" r="1.5" fill="#1F1A14"/>
+      <circle cx="40" cy="20" r="1.5" fill="#1F1A14"/>
+    </svg>
+  </section>
+
+  <!-- ───── 04 the dials ───── -->
+  <section class="work alt">
+    <div class="work-grid">
+      <div class="work-num">
+        <span class="big">04</span>
+        the dials
+      </div>
+      <div class="work-body">
+        <h2>two knobs that change <em>everything.</em></h2>
+        <p class="sub">⏤ how local do you want the picks, and what's the budget. they're independent.</p>
+
+        <div class="slider-card">
+          <div class="slider-anchor-row">
+            <div class="slider-anchor">
+              <small>left end</small>
+              first time here
+            </div>
+            <div class="slider-anchor right">
+              <small>right end</small>
+              i basically <em>live</em> here
+            </div>
+          </div>
+          <input type="range" min="0" max="100" value="68" class="vibe-slider" id="vibe" />
+          <div class="tick-row">
+            <span>greatest hits</span>
+            <span>mostly icons</span>
+            <span>mix it up</span>
+            <span>off the path</span>
+            <span>locals only</span>
+          </div>
+          <div class="preview-pair">
+            <div>
+              <p>at the left, you'll get</p>
+              <p>top of the rock at sunset, the vessel, via carota, jack's wife freda, the met, brooklyn bridge walk</p>
+            </div>
+            <div>
+              <p>at the right, you'll get</p>
+              <p>wu's wonton king at 11pm, scarr's pizza, the long island bar martini, the back garden at june, asian jewels for dim sum</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-anchor-row">
+            <div class="slider-anchor">
+              <small>left end</small>
+              <em>tight</em> on this trip
+            </div>
+            <div class="slider-anchor right">
+              <small>right end</small>
+              <em>splurge</em>, all of it
+            </div>
+          </div>
+          <input type="range" min="0" max="100" value="55" class="vibe-slider blue" id="budget" />
+          <div class="tick-row">
+            <span>~$60/day</span>
+            <span>~$120/day</span>
+            <span>~$220/day</span>
+            <span>~$400/day</span>
+            <span>~$800+/day</span>
+          </div>
+          <div class="preview-pair">
+            <div>
+              <p>at the left, you'll get</p>
+              <p>mei lai wah for $4, white bear cold dumplings, congee village, free fridays at moma, prospect park</p>
+            </div>
+            <div>
+              <p>at the right, you'll get</p>
+              <p>gage & tollner chef's counter, an omakase you've heard of, lucali at 10pm, the carlyle nightcap</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── 05 curated ───── -->
+  <section class="work">
+    <div class="work-grid">
+      <div class="work-num">
+        <span class="big">05</span>
+        or, skip ahead
+      </div>
+      <div class="work-body">
+        <h2>four days, <em>built from your lists.</em></h2>
+        <p class="sub">⏤ every stop below was pulled from a list you've curated. tap into any one as a starting frame.</p>
+
+        <div class="placeholder-note" style="border-color:#7BC47F">
+          <em style="color:#7BC47F">✓ rebuilt from your maps</em> each day pulls stops from your lists, then blends in places we think fit your vibe based on what's already there. citations show which list each save came from. the "in your vibe" line is our suggestion — tap any of them to add to your trip.
+        </div>
+
+        <div class="day-grid">
+          <div class="day">
+            <div class="day-meta">
+              <span class="line-dot line-F">F</span>
+              <span>chinatown + LES · 1 day · ~$95</span>
+            </div>
+            <h3>the <em>downtown crawl</em></h3>
+            <p class="stops">mei lai wah <span class="arrow">→</span> wu's wonton king <span class="arrow">→</span> scarr's pizza <span class="arrow">→</span> russ & daughters cafe <span class="arrow">→</span> sake bar decibel</p>
+            <p>roast pork bun for breakfast, the cheap-eats classic for lunch, a slice walking through dimes, dinner you'll remember, basement sake nightcap.</p>
+            <p class="add-line"><em>in your vibe ↗</em> <span class="place">spicy village</span> for a hand-pulled noodle pit stop, or <span class="place">double chicken please</span> if the slider tips toward splurge</p>
+            <span class="price-pill">from: locals' + OG + cheap eats</span>
+          </div>
+
+          <div class="day">
+            <div class="day-meta">
+              <span class="line-dot line-F">F</span>
+              <span>bococa · 1 day · ~$140</span>
+            </div>
+            <h3>a day in <em>your hood</em></h3>
+            <p class="stops">breakfast by salt's cure <span class="arrow">→</span> court street grocers <span class="arrow">→</span> june <span class="arrow">→</span> lucali <span class="arrow">→</span> public records</p>
+            <p>your current hood, spelled out exactly. breakfast around the corner, a sandwich for later, wine at the spot you actually drink at, the lucali wait, drinks and a back room.</p>
+            <p class="add-line"><em>in your vibe ↗</em> <span class="place">sweet pollys</span> for a 5pm vermouth if june is full, or <span class="place">hot sauce committee</span> if lucali is doing a 3-hour wait that night</p>
+            <span class="price-pill">from: new hood! (bococa)</span>
+          </div>
+
+          <div class="day">
+            <div class="day-meta">
+              <span class="line-dot line-2">2</span>
+              <span>brooklyn heights · 1 day · ~$120</span>
+            </div>
+            <h3>the <em>old hood</em>, by the water</h3>
+            <p class="stops">joe coffee <span class="arrow">→</span> river deli <span class="arrow">→</span> brooklyn bridge park <span class="arrow">→</span> noodle pudding <span class="arrow">→</span> the long island bar</p>
+            <p>start at joe, sardinian lunch on hicks, the park walk for the view nobody gets tired of, classic italian dinner, the martini at LIB.</p>
+            <p class="add-line"><em>in your vibe ↗</em> <span class="place">sahadi's</span> for a 2pm snack-pack to take to the park, or <span class="place">iris cafe</span> if joe has a line</p>
+            <span class="price-pill">from: BK heights + bars in the hood</span>
+          </div>
+
+          <div class="day">
+            <div class="day-meta">
+              <span class="line-dot line-7">7</span>
+              <span>queens, deep cut · 1 day · ~$85</span>
+            </div>
+            <h3>flushing → <em>jackson heights</em></h3>
+            <p class="stops">asian jewels (dim sum) <span class="arrow">→</span> white bear <span class="arrow">→</span> 7 train south <span class="arrow">→</span> birria-landia <span class="arrow">→</span> ayada thai</p>
+            <p>your queens lists, stitched. dim sum brunch, cold dumplings to-go, the 7 train ride that's half the experience, birria tacos, then ayada for the night.</p>
+            <p class="add-line"><em>in your vibe ↗</em> <span class="place">lhasa fast food</span> for momos behind the storefront, or <span class="place">arepa lady</span> for a 10pm cheese arepa on the way home</p>
+            <span class="price-pill">from: flushing eats + jackson heights</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── CTA ───── -->
+  <section class="cta-section" id="cta">
+    <div class="cta-inner">
+      <h2>okay. let's <em>actually</em> build it.</h2>
+      <p class="sub" style="margin-bottom:48px">
+        about sixty seconds. four days, mapped, routed by subway, on a single page you can text to your group chat.
+      </p>
+      <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+        <button class="build-btn" onclick="openQuiz()">build my new york <span class="arrow">→</span></button>
+        <p style="font-family:var(--mono);font-size:12px;color:rgba(10,10,10,.7);max-width:32ch;line-height:1.5">free to preview · no account · no email required</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── quiz overlay ───── -->
+  <div class="overlay" id="quiz-overlay">
+    <div class="quiz-card" id="quiz-card">
+      <div class="quiz-head">
+        <span class="qcount" id="qcount">1 of 12</span>
+        <span class="qclose" onclick="closeQuiz()">×</span>
+      </div>
+      <div class="qprogress"><div class="qprogress-bar" id="qprogress-bar"></div></div>
+      <div id="quiz-question">
+        <div class="quiz-img" id="qimg"><span class="ph">img tk</span><span class="qname" id="qname">—</span></div>
+        <div class="quiz-body">
+          <p class="qdesc" id="qdesc">—</p>
+          <p class="qfrom" id="qfrom">—</p>
+          <div class="quiz-actions">
+            <button class="qbtn no" onclick="answer(false)">not for me</button>
+            <button class="qbtn yes" onclick="answer(true)">yes, this</button>
+          </div>
+        </div>
+        <div class="quiz-skip" onclick="answer(null)">skip ↗</div>
+      </div>
+      <div id="quiz-results" class="quiz-results" style="display:none">
+        <span class="badge">your read</span>
+        <h3 id="rh3">you're a <em>—</em> kind of new yorker.</h3>
+        <p class="readout" id="rread">—</p>
+        <button class="build" onclick="openPaywall()">build my new york →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───── paywall overlay ───── -->
+  <div class="overlay" id="paywall-overlay">
+    <div class="quiz-card paywall">
+      <div class="quiz-head">
+        <span class="qcount">your trip is ready</span>
+        <span class="qclose" onclick="closePaywall()">×</span>
+      </div>
+      <p class="small">the unlock</p>
+      <h3>okay. let's <em>actually</em> build it.</h3>
+      <div class="tiers">
+        <div class="tier">
+          <p class="tlabel">free preview</p>
+          <p class="tprice">$0</p>
+          <ul>
+            <li>day one only</li>
+            <li>read-only</li>
+            <li>no map, no edits</li>
+            <li>no first-timer tips</li>
+          </ul>
+        </div>
+        <div class="tier full">
+          <p class="tlabel">full trip</p>
+          <p class="tprice">$6</p>
+          <ul>
+            <li>all four days, mapped</li>
+            <li>swap stops you don't like</li>
+            <li>OMNY tips, tipping, museum nights</li>
+            <li>live MTA times · shareable link</li>
+          </ul>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="pbtn" onclick="goFree()">try the free preview</button>
+        <button class="pbtn go" onclick="goPaid()">unlock · $6 →</button>
+      </div>
+      <p class="fineprint">$6 is the round-trip subway fare. seems fair.</p>
+    </div>
+  </div>
+
+  <!-- ───── footer ───── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>built by anna</h5>
+        <p>native new yorker. brooklyn-based — currently <span style="color:var(--knicks-orange)">bococa</span>, formerly <span style="color:var(--knicks-orange)">brooklyn heights</span>. she's been making custom nyc itineraries for visiting friends for over a decade. they got long enough that turning them into a site seemed reasonable.</p>
+        <p style="margin-top:10px;font-style:italic;color:var(--ink)">guest editors welcome. if you're a real new yorker with a real list, pitch us a day. we split the revenue.</p>
+        <p style="margin-top:14px;font-size:10px;color:var(--ink-tertiary)">not affiliated with the restaurants, bars, museums, or 7 trains mentioned above. opinions are anna's. and yours, eventually.</p>
+      </div>
+      <div>
+        <h5>the menu</h5>
+        <a href="#">how it works</a>
+        <a href="#">sample itineraries</a>
+        <a href="#">data + privacy</a>
+      </div>
+      <div>
+        <h5>elsewhere</h5>
+        <a href="https://instagram.com/" target="_blank">instagram</a>
+      </div>
+      <div>
+        <h5>say hi</h5>
+        <a href="mailto:annalisian@gmail.com">annalisian@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© mmxxvi · five boroughs · all rights reserved <span class="glyph">✺</span></span>
+      <span>a tiny operation · est. summer 2026 · brooklyn ny <span class="glyph">●</span></span>
+    </div>
+  </footer>
+
+  <script>
+    // live NYC clock
+    const clock = document.getElementById('nyc-clock');
+    function tick(){
+      const opts = {hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'America/New_York'};
+      const t = new Date().toLocaleTimeString('en-US', opts).toLowerCase();
+      clock.textContent = t + ' est · made in chinatown ✺';
+    }
+    tick(); setInterval(tick, 30000);
+
+    // rotating facts in the status bar
+    const facts = document.querySelectorAll('#facts .fact');
+    let i = 0;
+    setInterval(() => {
+      facts[i].classList.remove('on');
+      i = (i + 1) % facts.length;
+      facts[i].classList.add('on');
+    }, 4200);
+
+    // chip selection — single + multi
+    document.querySelectorAll('[data-group]').forEach(group => {
+      const isMulti = group.dataset.multi !== undefined;
+      const max = isMulti ? parseInt(group.dataset.multi) : 1;
+      group.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const wasOn = chip.classList.contains('on');
+          if (!isMulti) {
+            group.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+            chip.classList.add('on');
+          } else {
+            if (wasOn) {
+              chip.classList.remove('on');
+            } else {
+              const onCount = group.querySelectorAll('.chip.on').length;
+              if (onCount >= max) {
+                const first = group.querySelector('.chip.on');
+                if (first) first.classList.remove('on');
+              }
+              chip.classList.add('on');
+            }
+          }
+          if (group.dataset.group === 'party') {
+            const kids = document.getElementById('kids-strip');
+            const isKids = chip.dataset.val === 'kids' && chip.classList.contains('on');
+            kids.style.display = isKids ? 'block' : 'none';
+          }
+        });
+      });
+    });
+
+    // ───── interactive quiz ─────
+    const QUIZ = [
+      {name:"Russ & Daughters", desc:"Caviar bagels. The Sunday morning move.", from:"from your OG NY list", alt:0, tag:"classic"},
+      {name:"Top of the Rock", desc:"The skyline view, with a price tag.", from:"not on any of your lists", alt:3, tag:"tourist"},
+      {name:"Sake Bar Decibel", desc:"Basement sake bar, East Village. Loud.", from:"from your locals' nyc", alt:5, tag:"local", photo:"img/sake-bar-decibel.jpg"},
+      {name:"Jack's Wife Freda", desc:"The brunch line you wait in.", from:"not on your list (we noticed)", alt:1, tag:"tourist"},
+      {name:"Wu's Wonton King", desc:"Cheap, late, perfect. LES.", from:"from your cheap eats nyc", alt:2, tag:"local"},
+      {name:"The Met (Friday, 9pm)", desc:"Empty galleries, late close. The move.", from:"in your vibe", alt:3, tag:"local"},
+      {name:"Salon 94", desc:"Townhouse gallery on the UES. Quiet, good shows.", from:"in your vibe", alt:4, tag:"local", photo:"img/salon-94.jpg"},
+      {name:"June Wine Bar", desc:"Carroll Gardens, all-natural list.", from:"from your date night list", alt:5, tag:"local"},
+      {name:"Lucali", desc:"Brick-oven pizza, no slices, cash only.", from:"from your new hood! (bococa)", alt:0, tag:"local", photo:"img/lucali.jpg"},
+      {name:"Silence Please", desc:"Quiet workspace in BK. Slow coffee, good lamps.", from:"in your vibe", alt:1, tag:"local", photo:"img/silence-please.jpg"},
+      {name:"Asian Jewels", desc:"Flushing dim sum cart, weekend brunch.", from:"from your flushing eats", alt:2, tag:"local", photo:"img/asian-jewels.jpg"},
+      {name:"Public Records", desc:"Gowanus listening bar + tonics.", from:"from your bococa list", alt:5, tag:"local", photo:"img/public-records.jpg"}
+    ];
+    let qIdx = 0;
+    let qAns = [];
+
+    function openQuiz(){
+      qIdx = 0; qAns = [];
+      document.getElementById('quiz-overlay').classList.add('open');
+      document.getElementById('quiz-question').style.display = 'block';
+      document.getElementById('quiz-results').style.display = 'none';
+      renderQ();
+    }
+    function closeQuiz(){ document.getElementById('quiz-overlay').classList.remove('open'); }
+
+    function renderQ(){
+      if (qIdx >= QUIZ.length) { showResults(); return; }
+      const q = QUIZ[qIdx];
+      document.getElementById('qcount').textContent = (qIdx+1) + ' of ' + QUIZ.length;
+      document.getElementById('qprogress-bar').style.width = ((qIdx)/QUIZ.length*100) + '%';
+      const img = document.getElementById('qimg');
+      if (q.photo) {
+        img.className = 'quiz-img has-photo';
+        img.style.backgroundImage = "url('" + q.photo + "')";
+      } else {
+        img.className = 'quiz-img alt-' + q.alt;
+        img.style.backgroundImage = '';
+      }
+      document.getElementById('qname').textContent = q.name;
+      document.getElementById('qdesc').textContent = q.desc;
+      document.getElementById('qfrom').textContent = q.from;
+    }
+    function answer(val){
+      qAns.push({q: QUIZ[qIdx], val});
+      qIdx++;
+      renderQ();
+    }
+    function showResults(){
+      document.getElementById('qprogress-bar').style.width = '100%';
+      document.getElementById('quiz-question').style.display = 'none';
+      document.getElementById('quiz-results').style.display = 'block';
+      // tally
+      const yesLocal = qAns.filter(a => a.val === true && a.q.tag === 'local').length;
+      const yesTourist = qAns.filter(a => a.val === true && a.q.tag === 'tourist').length;
+      let label, read;
+      if (yesLocal >= yesTourist + 2) {
+        label = 'locals only';
+        read = "you said yes to wu's, sake decibel, the met at 9pm. we'll skip the lines and head to the side door — all four days lean off the path, with one obvious classic so you don't miss it.";
+      } else if (yesTourist >= yesLocal + 2) {
+        label = 'first-time wonder';
+        read = "the icons hit. we'll plan a trip that gets you the skyline, the brooklyn bridge walk, the bagel-and-pastrami one-two, and yes — top of the rock. with a few hidden corners woven in.";
+      } else {
+        label = 'mixed-mode';
+        read = "you wanted both, which is the right answer. we'll route you through one big-icon morning + locals'-only evenings, plus a queens day for the deep cut.";
+      }
+      document.getElementById('rh3').innerHTML = "you're a <em>" + label + "</em> kind of new yorker.";
+      document.getElementById('rread').textContent = read;
+    }
+
+    // paywall (only after quiz completion)
+    function openPaywall(){
+      closeQuiz();
+      document.getElementById('paywall-overlay').classList.add('open');
+    }
+    function closePaywall(){ document.getElementById('paywall-overlay').classList.remove('open'); }
+    function goFree(){ closePaywall(); alert('preview generated — day one ready below ✓ (this would scroll to a generated preview)'); }
+    function goPaid(){ closePaywall(); alert('this is where stripe/checkout would open. $6 round-trip fare unlock.'); }
+
+    // ESC to close any overlay
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeQuiz(); closePaywall(); }
+    });
+  </script>
+
+</body>
+</html>
